@@ -1,0 +1,21 @@
+{
+  "name": "dan211",
+  "version": "1.0.0",
+  "description": "![image](https://user-images.githubusercontent.com/45585937/159450722-cb4c0aee-c531-452f-b277-ccfdc23b9f64.png)",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.22",
+    "cheerio": "^1.0.0-rc.10",
+    "ohmyfetch": "^0.4.15"
+  }
+}
