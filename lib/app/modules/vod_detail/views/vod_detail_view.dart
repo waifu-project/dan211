@@ -1,4 +1,5 @@
 import 'package:dan211/modules/vod_detail.dart';
+import 'package:dan211/utils/helper.dart';
 import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_transparent_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,71 @@ class VodDetailView extends GetView<VodDetailController> {
   VodDetailData get data => controller.data.value;
 
   final PageController _page = PageController(initialPage: 0);
+
+  handlePlay(VodPlayer ctx) async {
+    /// TODO 目前仅支持 `ios`
+    if (!GetPlatform.isIOS) {
+      showCupertinoDialog(
+        context: Get.context as BuildContext,
+        builder: (_) => CupertinoAlertDialog(
+          title: const Text("提示"),
+          content: const Text("播放仅支持iOS平台"),
+          actions: [
+            CupertinoButton(
+              child: const Text('爷知道了'),
+              onPressed: () {
+                Get.back();
+              },
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    try {
+      var id = ctx.url;
+      debugPrint("player id: $id");
+      Get.dialog(
+        Expanded(
+          child: Center(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Get.isDarkMode
+                    ? CupertinoColors.darkBackgroundGray.withOpacity(.72)
+                    : CupertinoColors.white.withOpacity(.72),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const SizedBox(
+                child: CupertinoActivityIndicator(),
+                width: 90,
+                height: 90,
+              ),
+            ),
+          ),
+        ),
+      );
+      var url = await controller.getPlayURL(id);
+      if (Get.isDialogOpen as bool) Get.back();
+      launchURL(url);
+    } catch (e) {
+      showCupertinoDialog(
+        context: Get.context as BuildContext,
+        builder: (_) => CupertinoAlertDialog(
+          title: const Text("提示"),
+          content: const Text("获取播放链接失败 :("),
+          actions: [
+            CupertinoButton(
+              child: const Text('爷知道了'),
+              onPressed: () {
+                Get.back();
+              },
+            )
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +172,9 @@ class VodDetailView extends GetView<VodDetailController> {
                                       padding: const EdgeInsets.all(12.0),
                                       child: CupertinoButton(
                                         minSize: 27,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          handlePlay(curr);
+                                        },
                                         child: Text(
                                           curr.title,
                                           style: Theme.of(context)

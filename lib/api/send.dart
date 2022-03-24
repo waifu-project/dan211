@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:dan211/api/parse_utils.dart';
 import 'package:dan211/modules/art_detail.dart';
 import 'package:dan211/modules/vod_detail.dart';
+import 'package:dan211/modules/vod_play.dart' as vodplay;
 import 'package:html/parser.dart' as parser;
 import 'package:dan211/modules/movie.dart';
 import 'package:dan211/utils/http.dart';
@@ -79,5 +82,38 @@ class SendHttp {
       vodPlayer: player,
       vodType: vodType,
     );
+  }
+
+  static Future<String> getVodPlayURL(String id) async {
+    var resp = await XHttp.dio.get(createVodPlayURL(id));
+    var data = resp.data;
+    var $ = parser.parseFragment(data);
+    var select = $.querySelector("#bofang_box script");
+    var text = select!.text.trim();
+    var fristIndex = text.indexOf("{");
+    var parseTarget = "";
+    if (fristIndex >= 0) {
+      var _idl = text[fristIndex - 1];
+      if (_idl == " " || _idl == "=") {
+        parseTarget = text.substring(fristIndex);
+      }
+    }
+    if (parseTarget.isEmpty) {
+      throw AsyncError(
+        "parse error",
+        StackTrace.fromString("解析失败"),
+      );
+    }
+    // 网站谜一样的操作
+    // `= ` | `=` 操作
+    // var sybId = "var player_aaaa = ";
+    // var copyData = text.split(sybId);
+    // var parseTarget = copyData[1];
+    var _data = vodplay.movieVodPlayCodeDataFromMap(parseTarget);
+    return _data.url;
+    // if (copyData.length == 2) {
+    // } else {
+    //   throw Error();
+    // }
   }
 }

@@ -25,6 +25,10 @@ String createSearchURL(String keyword) {
   return "/vodsearch/----$keyword---------.html";
 }
 
+String createVodPlayURL(String id) {
+  return "/vodplay/$id.html";
+}
+
 /// 查询字段类型
 enum PageQueryStringType {
   /// 搜索

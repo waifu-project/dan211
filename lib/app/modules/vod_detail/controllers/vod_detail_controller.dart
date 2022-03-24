@@ -1,5 +1,6 @@
 import 'package:dan211/api/send.dart';
 import 'package:dan211/modules/vod_detail.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class VodDetailController extends GetxController {
@@ -24,7 +25,7 @@ class VodDetailController extends GetxController {
   final _cacheID = "".obs;
 
   /// 首先从缓存中获取 `id`
-  /// 
+  ///
   /// 否则从上下文中拿 [Get.arguments]
   String get _id {
     if (_cacheID.value.isNotEmpty) return _cacheID.value;
@@ -38,6 +39,12 @@ class VodDetailController extends GetxController {
     if (args != null) {
       _cacheID.value = args;
     }
+  }
+
+  Future<String> getPlayURL(String id) async {
+    var url = await SendHttp.getVodPlayURL(id);
+    debugPrint("get player url: $url");
+    return url;
   }
 
   fetchVodDetail() async {
