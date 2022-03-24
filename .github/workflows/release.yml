@@ -1,0 +1,39 @@
+name: 211-release
+on:
+  push:
+    tags:
+      - "release-v*"
+
+jobs:
+  release-to-gitHub:
+    name: release
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "2.5.3"
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter pub deps
+      - run: flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
+
+      - run: |
+          flutter build ios --release --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
+      
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            build/app/outputs/flutter-apk/*.apk
+            build/ios/iphoneos/app.ipa
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
