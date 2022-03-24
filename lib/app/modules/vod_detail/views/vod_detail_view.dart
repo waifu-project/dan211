@@ -1,132 +1,173 @@
+import 'package:dan211/modules/vod_detail.dart';
+import 'package:dan211/widget/k_error_stack.dart';
+import 'package:dan211/widget/k_transparent_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'package:get/get.dart';
 
 import '../controllers/vod_detail_controller.dart';
 
 class VodDetailView extends GetView<VodDetailController> {
-  const VodDetailView({Key? key}) : super(key: key);
+  VodDetailView({Key? key}) : super(key: key);
+
+  bool get showCRWidget => controller.showCRWidget;
+
+  VodDetailData get data => controller.data.value;
+
+  final PageController _page = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
+    Map<int, Widget> _tabs = <int, Widget>{
+      0: Text(
+        "播放",
+        style: Theme.of(context).textTheme.button,
+      ),
+      1: Text(
+        "简介",
+        style: Theme.of(context).textTheme.caption,
+      ),
+      2: Text(
+        "评论",
+        style: Theme.of(context).textTheme.caption,
+      ),
+    };
+
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        leading: CupertinoNavigationBarBackButton(),
+        previousPageTitle: "返回",
       ),
       child: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: Image.network(
-                      "https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dc57954905594554801c791319a18055~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?",
-                      width: 72,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("你好世界"),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "主演: 不详",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      Text(
-                        "状态：",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      Text(
-                        "语言：英语",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      Text(
-                        "时间：2021-09-11",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      Text(
-                        "分类：乐播",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      Text(
-                        "类型：NMSL",
-                        style: Theme.of(context).textTheme.caption,
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              // height: 42,
-              margin: const EdgeInsets.only(top: 12),
-              child: CupertinoSlidingSegmentedControl(
-                children: <int, Widget>{
-                  0: Text(
-                    "播放",
-                    style: Theme.of(context).textTheme.button,
-                  ),
-                  1: Text(
-                    "简介",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  2: Text(
-                    "评论",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                },
-                //当前选中的索引
-                groupValue: 0, onValueChanged: (int? value) {},
-              ),
-            ),
-            Expanded(
-              child: PageView(
-                dragStartBehavior: DragStartBehavior.down,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: CupertinoButton(
-                          minSize: 27,
-                          onPressed: () {},
-                          child: Text("Click Me", style: Theme.of(context).textTheme.subtitle2),
-                          color: CupertinoColors.activeBlue,
-                          padding: const EdgeInsets.symmetric(horizontal: 12,),
+        child: Obx(
+          () => showCRWidget
+              ? _buildCR
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FadeInImage.memoryNetwork(
+                          width: double.infinity,
+                          height: Get.height * .33,
+                          placeholder: kTransparentImage,
+                          image: data.cover,
+                          fit: BoxFit.cover,
                         ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(data.title),
+                        )
+                      ],
+                    ),
+                    Container(
+                      width: double.infinity,
+                      // height: 42,
+                      margin: const EdgeInsets.only(top: 12),
+                      child: CupertinoSlidingSegmentedControl(
+                        children: _tabs,
+                        groupValue: controller.tryGroupValue.value,
+                        onValueChanged: (int? value) {
+                          if (value == null) return;
+                          controller.tryGroupValue.value = value;
+                          // _page.jumpToPage(value);
+                          _page.animateToPage(
+                            value,
+                            duration: const Duration(
+                              milliseconds: 240,
+                            ),
+                            curve: Curves.ease,
+                          );
+                        },
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      Text("简介"),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      Text("啥也没有"),
-                    ]
-                  ),
-                ],
-              ),
-            ),
-          ],
+                    ),
+                    Expanded(
+                      child: PageView(
+                        controller: _page,
+                        pageSnapping: true,
+                        dragStartBehavior: DragStartBehavior.down,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: <Widget>[
+                          CupertinoScrollbar(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                  data.vodPlayer.length,
+                                  (index) {
+                                    var curr = data.vodPlayer[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: CupertinoButton(
+                                        minSize: 27,
+                                        onPressed: () {},
+                                        child: Text(
+                                          curr.title,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .button,
+                                        ),
+                                        color: Theme.of(context).dividerColor,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          CupertinoScrollbar(
+                            child: SingleChildScrollView(
+                              child: Html(
+                                data: data.descHtml,
+                              ),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text("啥也没有"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
         ),
+      ),
+    );
+  }
+
+  Widget get _buildCR {
+    Widget child = _buildLoading();
+    var isErrorFlag = controller.errorMsgStack.value.isNotEmpty;
+    if (!controller.isLoading.value && isErrorFlag) {
+      child = _buildError();
+    }
+    return Center(child: child);
+  }
+
+  Widget _buildLoading() {
+    return const CupertinoActivityIndicator();
+  }
+
+  Widget _buildError() {
+    return KErrorStack(
+      errorStack: controller.errorMsgStack.value,
+      child: CupertinoButton.filled(
+        child: const Text("重新加载"),
+        onPressed: () {
+          controller.fetchVodDetail();
+        },
       ),
     );
   }

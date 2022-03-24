@@ -13,12 +13,16 @@ String createVodTypeAndTypeURL(int vodType, String action) {
   return "/vodshow/$vodType---$action--------.html";
 }
 
-String createDetailURL(String detailID) {
+String createVodDetailURL(String detailID) {
   return "/voddetail/$detailID.html";
 }
 
 String createArtDetailURL(String id) {
   return "/artdetail-$id.html";
+}
+
+String createSearchURL(String keyword) {
+  return "/vodsearch/----$keyword---------.html";
 }
 
 /// 查询字段类型

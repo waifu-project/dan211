@@ -83,7 +83,7 @@ class HomeView extends GetView<HomeController> {
                                               onTap: () {
                                                 Get.toNamed(
                                                   Routes.VOD_DETAIL,
-                                                  arguments: sub,
+                                                  arguments: sub.id,
                                                 );
                                               },
                                             ),
