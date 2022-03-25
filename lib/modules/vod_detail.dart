@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:dan211/modules/vod_movie.dart';
+
 VodDetailData vodDetailDataFromJson(String str) =>
     VodDetailData.fromJson(json.decode(str));
 
@@ -17,6 +19,7 @@ class VodDetailData {
     required this.category,
     required this.vodPlayer,
     required this.descHtml,
+    this.recommend = const [],
   });
 
   final String title;
@@ -25,6 +28,7 @@ class VodDetailData {
   final String category;
   final List<VodPlayer> vodPlayer;
   final String descHtml;
+  final List<VodCard> recommend;
 
   factory VodDetailData.fromJson(Map<String, dynamic> json) => VodDetailData(
         title: json["title"],
@@ -32,8 +36,16 @@ class VodDetailData {
         vodType: json["vod_type"],
         category: json["category"],
         vodPlayer: List<VodPlayer>.from(
-            json["vod_player"].map((x) => VodPlayer.fromJson(x))),
+          json["vod_player"].map(
+            (x) => VodPlayer.fromJson(x),
+          ),
+        ),
         descHtml: json["desc_html"],
+        recommend: List<VodCard>.from(
+          json["recommend"].map(
+            (x) => VodCard.fromJson(x),
+          ),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,6 +55,7 @@ class VodDetailData {
         "category": category,
         "vod_player": List<dynamic>.from(vodPlayer.map((x) => x.toJson())),
         "desc_html": descHtml,
+        "recommend": List<dynamic>.from(recommend.map((x) => x.toJson())),
       };
 }
 
