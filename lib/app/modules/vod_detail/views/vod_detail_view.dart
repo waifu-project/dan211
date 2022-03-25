@@ -85,22 +85,19 @@ class VodDetailView extends GetView<VodDetailController> {
     }
   }
 
+  final List<String> _tabData = [
+    "播放",
+    "简介",
+    "猜你喜欢",
+    "评论",
+  ];
+
   @override
   Widget build(BuildContext context) {
-    Map<int, Widget> _tabs = <int, Widget>{
-      0: Text(
-        "播放",
-        style: Theme.of(context).textTheme.button,
-      ),
-      1: Text(
-        "简介",
-        style: Theme.of(context).textTheme.caption,
-      ),
-      2: Text(
-        "评论",
-        style: Theme.of(context).textTheme.caption,
-      ),
-    };
+    TextStyle? _caption = Theme.of(context).textTheme.caption;
+
+    Map<int, Widget> _tabs =
+        _tabData.map((e) => Text(e, style: _caption)).toList().asMap();
 
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
@@ -197,6 +194,12 @@ class VodDetailView extends GetView<VodDetailController> {
                               child: Html(
                                 data: data.descHtml,
                               ),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text("猜你喜欢"),
                             ),
                           ),
                           const Padding(
