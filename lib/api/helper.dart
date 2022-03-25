@@ -1,4 +1,4 @@
-import 'package:dan211/modules/movie.dart';
+import 'package:dan211/modules/vod_movie.dart';
 
 String createVodTypeURLAsObj(VodType _type) {
   return createVodTypeURL(_type.id);

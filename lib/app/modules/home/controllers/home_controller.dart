@@ -1,5 +1,5 @@
 import 'package:dan211/api/send.dart';
-import 'package:dan211/modules/movie.dart';
+import 'package:dan211/modules/vod_movie.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {

@@ -5,7 +5,7 @@ import 'package:dan211/modules/art_detail.dart';
 import 'package:dan211/modules/vod_detail.dart';
 import 'package:dan211/modules/vod_play.dart' as vodplay;
 import 'package:html/parser.dart' as parser;
-import 'package:dan211/modules/movie.dart';
+import 'package:dan211/modules/vod_movie.dart';
 import 'package:dan211/utils/http.dart';
 
 import 'helper.dart';

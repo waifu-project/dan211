@@ -1,4 +1,4 @@
-import 'package:dan211/modules/movie.dart';
+import 'package:dan211/modules/vod_movie.dart';
 import 'package:html/dom.dart';
 
 /// 获取 `vod-type`
