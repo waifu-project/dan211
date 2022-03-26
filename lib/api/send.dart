@@ -84,7 +84,7 @@ class SendHttp {
     );
   }
 
-  static Future<String> getVodPlayURL(String id) async {
+  static Future<vodplay.MovieVodPlay> getVodPlayURL(String id) async {
     var resp = await XHttp.dio.get(createVodPlayURL(id));
     var data = resp.data;
     var $ = parser.parseFragment(data);
@@ -104,13 +104,35 @@ class SendHttp {
         StackTrace.fromString("解析失败"),
       );
     }
+    List<VodCard> vodCard = $.querySelectorAll(".img-list li").map((e) {
+      var title = e.querySelector("h2")?.text.trim() ?? "";
+      var cover = e.querySelector("img")?.attributes["src"]?.trim() ?? "";
+      var id = e
+          .querySelector("a")
+          ?.attributes["href"]
+          ?.split("/")[2]
+          .split(".html")[0]
+          .trim();
+      return VodCard(
+        id: id ?? "",
+        cover: cover,
+        title: title,
+      );
+    }).toList();
     // 网站谜一样的操作
     // `= ` | `=` 操作
     // var sybId = "var player_aaaa = ";
     // var copyData = text.split(sybId);
     // var parseTarget = copyData[1];
     var _data = vodplay.movieVodPlayCodeDataFromMap(parseTarget);
-    return _data.url;
+    return vodplay.MovieVodPlay(
+      player: VodPlayer(
+        url: _data.url,
+        /// 暂时写死。。。
+        title: '在线播放',
+      ),
+      recommend: vodCard,
+    );
     // if (copyData.length == 2) {
     // } else {
     //   throw Error();

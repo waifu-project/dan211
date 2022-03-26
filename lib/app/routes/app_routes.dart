@@ -6,6 +6,7 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const VOD_DETAIL = _Paths.VOD_DETAIL;
   static const ART_DETAIL = _Paths.ART_DETAIL;
+  static const VOD_PLAY = _Paths.VOD_PLAY;
 }
 
 abstract class _Paths {
@@ -13,4 +14,5 @@ abstract class _Paths {
   static const HOME = '/home';
   static const VOD_DETAIL = '/vod-detail';
   static const ART_DETAIL = '/art-detail';
+  static const VOD_PLAY = '/vod-play';
 }

@@ -4,11 +4,24 @@
 
 import 'dart:convert';
 
+import 'package:dan211/modules/vod_detail.dart';
+import 'package:dan211/modules/vod_movie.dart';
+
 MovieVodPlayCodeData movieVodPlayCodeDataFromMap(String str) =>
     MovieVodPlayCodeData.fromMap(json.decode(str));
 
 String movieVodPlayCodeDataToMap(MovieVodPlayCodeData data) =>
     json.encode(data.toMap());
+
+class MovieVodPlay {
+  MovieVodPlay({
+    required this.player,
+    required this.recommend,
+  });
+
+  final VodPlayer player;
+  final List<VodCard> recommend;
+}
 
 class MovieVodPlayCodeData {
   MovieVodPlayCodeData({

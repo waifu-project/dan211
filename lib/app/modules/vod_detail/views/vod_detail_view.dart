@@ -1,5 +1,5 @@
+import 'package:dan211/app/routes/app_pages.dart';
 import 'package:dan211/modules/vod_detail.dart';
-import 'package:dan211/utils/helper.dart';
 import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_transparent_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,26 +21,6 @@ class VodDetailView extends GetView<VodDetailController> {
   final PageController _page = PageController(initialPage: 0);
 
   handlePlay(VodPlayer ctx) async {
-    /// TODO 目前仅支持 `ios`
-    if (!GetPlatform.isIOS) {
-      showCupertinoDialog(
-        context: Get.context as BuildContext,
-        builder: (_) => CupertinoAlertDialog(
-          title: const Text("提示"),
-          content: const Text("播放仅支持iOS平台"),
-          actions: [
-            CupertinoButton(
-              child: const Text('爷知道了'),
-              onPressed: () {
-                Get.back();
-              },
-            )
-          ],
-        ),
-      );
-      return;
-    }
-
     try {
       var id = ctx.url;
       debugPrint("player id: $id");
@@ -63,10 +43,18 @@ class VodDetailView extends GetView<VodDetailController> {
           ),
         ),
       );
-      var url = await controller.getPlayURL(id);
+      var data = await controller.getPlayURL(id);
       if (Get.isDialogOpen as bool) Get.back();
-      launchURL(url);
+      var recommendID = await Get.toNamed(
+        Routes.VOD_PLAY,
+        arguments: data,
+      );
+      if (recommendID != null && recommendID is String) {
+        controller.setCacheID(recommendID);
+        controller.fetchVodDetail();
+      }
     } catch (e) {
+      e.printError();
       showCupertinoDialog(
         context: Get.context as BuildContext,
         builder: (_) => CupertinoAlertDialog(
