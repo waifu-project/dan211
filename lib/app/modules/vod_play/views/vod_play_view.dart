@@ -1,5 +1,3 @@
-import 'package:dan211/app/modules/vod_detail/views/vod_detail_view.dart';
-import 'package:dan211/app/routes/app_pages.dart';
 import 'package:dan211/utils/helper.dart';
 import 'package:dan211/widget/k_card.dart';
 import 'package:flutter/cupertino.dart';
