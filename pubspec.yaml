@@ -23,6 +23,13 @@ dev_dependencies:
   flutter_test: 
     sdk: flutter
 
+  # flutter_launcher_name:
+  #   git:
+  #     url: https://github.com/d1y/flutter_launcher_name
+
 flutter: 
   uses-material-design: true
 
+# flutter pub run flutter_launcher_name:main
+flutter_launcher_name:
+  name: "211工程"

@@ -8,7 +8,7 @@
    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
    
    <application
-        android:label="dan211"
+        android:label="211工程"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
