@@ -30,6 +30,7 @@ class XHttp {
     connectTimeout: 15000,
     receiveTimeout: 13000,
     baseUrl: API_BASE,
+    responseType: ResponseType.plain,
   ));
 
   /// 初始化dio
