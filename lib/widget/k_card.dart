@@ -34,7 +34,7 @@ class KMovieCard extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: width,
-        height: double.infinity,
+        height: height,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
