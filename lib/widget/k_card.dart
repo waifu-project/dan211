@@ -7,20 +7,22 @@ class KMovieCard extends StatelessWidget {
     required this.imageURL,
     required this.title,
     this.radiusSize = 8.0,
-    this.space,
-    this.width = 72,
+    this.space = 0,
+    this.width = double.infinity,
+    this.height = double.infinity,
     this.onTap,
   }) : super(key: key);
 
   final String imageURL;
   final String title;
   final double radiusSize;
-  final double? space;
+  final double space;
   final double width;
+  final double height;
   final VoidCallback? onTap;
 
   Widget get _spaceWidget {
-    if (space! <= 0 || space == null) {
+    if (space <= 0) {
       return const SizedBox.shrink();
     }
     return SizedBox(height: space);

@@ -1,5 +1,6 @@
 import 'package:dan211/app/routes/app_pages.dart';
 import 'package:dan211/modules/art_detail.dart';
+import 'package:dan211/modules/vod_movie.dart';
 import 'package:dan211/widget/k_card.dart';
 import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_list_tile.dart';
@@ -18,6 +19,8 @@ class HomeView extends GetView<HomeController> {
 
   bool get showCRWidget => controller.showCRWidget;
 
+  List<HomeCard> get homeCard => controller.data.value.homeCards;
+
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
@@ -32,104 +35,116 @@ class HomeView extends GetView<HomeController> {
         trailing: CupertinoButton(
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.search),
-          onPressed: () {},
+          onPressed: () {
+            /// TODO 支持通过传递参数搜索
+            Get.toNamed(
+              Routes.VOD_SEARCH,
+              arguments: "",
+            );
+          },
         ),
         middle: const Text("榜单"),
       ),
       child: SafeArea(
-        child: Obx(() => showCRWidget
-            ? _buildCR
-            : CupertinoScrollbar(
-              child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ...controller.data.value.homeCards.map((e) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Builder(builder: (BuildContext context) {
-                                    var canI1 = controller.data.value.homeCards
-                                            .indexOf(e) ==
-                                        0;
-                                    return Text(
-                                      canI1 ? "最新电影" : "最热电影",
-                                      style: CupertinoTheme.of(context)
+        child: Obx(
+          () => showCRWidget
+              ? _buildCR
+              : CupertinoScrollbar(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ...homeCard.map((e) {
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Builder(builder: (BuildContext context) {
+                                      var canI1 = homeCard.indexOf(e) == 0;
+                                      var _style = CupertinoTheme.of(context)
                                           .textTheme
-                                          .tabLabelTextStyle,
-                                    );
-                                  })
-                                ],
+                                          .tabLabelTextStyle;
+                                      var _text = canI1 ? "最新电影" : "最热电影";
+                                      return Text(
+                                        _text,
+                                        style: _style,
+                                      );
+                                    })
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: Get.width,
-                              height: 120,
-                              child: CupertinoScrollbar(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: IntrinsicHeight(
-                                    child: Row(
-                                      children: e.vodCards
-                                          .map(
-                                            (sub) => Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: KMovieCard(
-                                                imageURL: sub.cover,
-                                                title: sub.title,
-                                                space: 6.0,
-                                                onTap: () {
-                                                  Get.toNamed(
-                                                    Routes.VOD_DETAIL,
-                                                    arguments: sub.id,
-                                                  );
-                                                },
+                              SizedBox(
+                                width: Get.width,
+                                height: 120,
+                                child: CupertinoScrollbar(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: IntrinsicHeight(
+                                      child: Row(
+                                        children: e.vodCards
+                                            .map(
+                                              (sub) => Padding(
+                                                padding: const EdgeInsets.all(
+                                                  8.0,
+                                                ),
+                                                child: KMovieCard(
+                                                  width: 120,
+                                                  imageURL: sub.cover,
+                                                  title: sub.title,
+                                                  space: 6.0,
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                      Routes.VOD_DETAIL,
+                                                      arguments: sub.id,
+                                                    );
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                          .toList(),
+                                            )
+                                            .toList(),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                      _navTitle("最新影视资讯"),
-                      Column(
-                        children: controller.data.value.artDatas
-                            .map(
-                              (e) => CupertinoListTile(
-                                leading: const Icon(
-                                  CupertinoIcons.arrow_down_right_square_fill,
+                            ],
+                          );
+                        }).toList(),
+                        _navTitle("最新影视资讯"),
+                        Column(
+                          children: controller.data.value.artDatas
+                              .map(
+                                (e) => CupertinoListTile(
+                                  leading: const Icon(
+                                    CupertinoIcons.arrow_down_right_square_fill,
+                                  ),
+                                  title: Text(
+                                    e.title,
+                                    style: CupertinoTheme.of(context)
+                                        .textTheme
+                                        .tabLabelTextStyle,
+                                  ),
+                                  onTap: () {
+                                    Get.toNamed(
+                                      Routes.ART_DETAIL,
+                                      arguments: ArtDetailData.fromArgs(
+                                        e.id,
+                                        e.title,
+                                      ),
+                                    );
+                                  },
                                 ),
-                                title: Text(
-                                  e.title,
-                                  style: CupertinoTheme.of(context)
-                                      .textTheme
-                                      .tabLabelTextStyle,
-                                ),
-                                onTap: () {
-                                  Get.toNamed(
-                                    Routes.ART_DETAIL,
-                                    arguments: ArtDetailData.fromArgs(
-                                      e.id,
-                                      e.title,
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                            .toList(),
-                      )
-                    ],
+                              )
+                              .toList(),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-            )),
+        ),
       ),
     );
   }
