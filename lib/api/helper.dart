@@ -53,8 +53,8 @@ class PageQueryStringUtils {
     this.type = PageQueryStringType.search,
   });
 
-  final int page;
-  final String data;
+  int page;
+  String data;
   final PageQueryStringType type;
 
   /// 根据 [page] 是否 `<=` 1
