@@ -31,54 +31,57 @@ class VodCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Image.network(
-            imageURL,
-            width: imgWidth,
-            fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) {
-                return DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(radiusSize),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      radiusSize,
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Image.network(
+              imageURL,
+              width: imgWidth,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(radiusSize),
                     ),
-                    child: child,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        radiusSize,
+                      ),
+                      child: child,
+                    ),
+                  );
+                }
+                return const Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) =>
+                  Builder(builder: (context) {
+                if (errorBuilder != null) return errorBuilder!(context, error, stackTrace);
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(radiusSize),
+                  child: Center(
+                    child: Text(_loadImageError),
                   ),
                 );
-              }
-              return const Center(
-                child: CupertinoActivityIndicator(),
-              );
-            },
-            errorBuilder: (context, error, stackTrace) =>
-                Builder(builder: (context) {
-              if (errorBuilder != null) return errorBuilder!(context, error, stackTrace);
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(radiusSize),
-                child: Center(
-                  child: Text(_loadImageError),
-                ),
-              );
-            }),
-          ),
-          SizedBox(
-            width: space,
-          ),
-          Expanded(
-            child: Text(
-              _title,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
+              }),
             ),
-          ),
-        ],
+            SizedBox(
+              width: space,
+            ),
+            Expanded(
+              child: Text(
+                _title,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
