@@ -84,6 +84,7 @@ class VodPlayView extends StatelessWidget {
                                       (sub) => Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: KMovieCard(
+                                          width: 120,
                                           imageURL: sub.cover,
                                           title: sub.title,
                                           space: 6.0,
