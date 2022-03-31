@@ -62,8 +62,16 @@ class VodCardWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: space,),
-          Text(_title),
+          SizedBox(
+            width: space,
+          ),
+          Expanded(
+            child: Text(
+              _title,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );
