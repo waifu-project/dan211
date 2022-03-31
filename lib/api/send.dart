@@ -4,6 +4,8 @@ import 'package:dan211/api/parse_utils.dart';
 import 'package:dan211/modules/art_detail.dart';
 import 'package:dan211/modules/vod_detail.dart';
 import 'package:dan211/modules/vod_play.dart' as vodplay;
+import 'package:dan211/modules/vod_search.dart';
+import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:dan211/modules/vod_movie.dart';
 import 'package:dan211/utils/http.dart';
@@ -128,6 +130,7 @@ class SendHttp {
     return vodplay.MovieVodPlay(
       player: VodPlayer(
         url: _data.url,
+
         /// 暂时写死。。。
         title: '在线播放',
       ),
@@ -137,5 +140,56 @@ class SendHttp {
     // } else {
     //   throw Error();
     // }
+  }
+
+  static Future<VodSearchRespData> getSearch(PageQueryStringUtils page) async {
+    var resp = await XHttp.dio.get(page.toString());
+    var document = parser.parseFragment(resp.data);
+    var listNode = document.querySelectorAll("#list-focus li");
+
+    List<VodCard> cards = listNode.map((e) {
+      var playIMG = e.querySelector(".play-img");
+      var img = playIMG?.querySelector("img");
+      var title = img?.attributes["alt"]?.trim() ?? "";
+      var id =
+          playIMG?.attributes["href"]?.split("/")[2].split(".html")[0] ?? "";
+      var image = img?.attributes["src"]?.trim() ?? "";
+      return VodCard(
+        cover: image,
+        id: id,
+        title: title,
+      );
+    }).toList();
+
+    int total = -1;
+    int current = -1;
+    int totalPage = -1;
+
+    var pageTip = document.querySelector(".page_tip")?.text.trim() ?? "";
+    if (pageTip == "共0条数据,当前/页") {
+      debugPrint("搜索的内容为空");
+    } else {
+      // 共1443条数据,当前1/145页
+      var _pageCache = pageTip.split("条数据");
+      total = int.tryParse(_pageCache[0].substring(1)) ?? 0;
+      var _pageNumberCache1 = _pageCache[1].split(",当前")[1];
+      var _pageNumberCache = _pageNumberCache1.substring(
+        0,
+        _pageNumberCache1.length - 1,
+      );
+      var _pageNumberTarget = _pageNumberCache.split("/");
+      current = int.tryParse(_pageNumberTarget[0]) ?? 0;
+      totalPage = int.tryParse(_pageNumberTarget[1]) ?? 0;
+      debugPrint("total: $total\n");
+      debugPrint("current: $current\n");
+      debugPrint("total_page: $totalPage\n");
+    }
+
+    return VodSearchRespData(
+      data: cards,
+      total: total,
+      current: current,
+      totalPage: totalPage,
+    );
   }
 }
