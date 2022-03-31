@@ -8,6 +8,8 @@ import '../modules/vod_detail/bindings/vod_detail_binding.dart';
 import '../modules/vod_detail/views/vod_detail_view.dart';
 import '../modules/vod_play/bindings/vod_play_binding.dart';
 import '../modules/vod_play/views/vod_play_view.dart';
+import '../modules/vod_search/bindings/vod_search_binding.dart';
+import '../modules/vod_search/views/vod_search_view.dart';
 
 part 'app_routes.dart';
 
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.VOD_PLAY,
       page: () => VodPlayView(),
       binding: VodPlayBinding(),
+    ),
+    GetPage(
+      name: _Paths.VOD_SEARCH,
+      page: () => VodSearchView(),
+      binding: VodSearchBinding(),
     ),
   ];
 }
