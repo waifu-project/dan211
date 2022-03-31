@@ -9,6 +9,7 @@ class VodCardWidget extends StatelessWidget {
     this.padding = const EdgeInsets.all(8.0),
     this.imgWidth = 90,
     this.space = 0,
+    this.errorBuilder,
   }) : super(key: key);
 
   final VoidCallback onTap;
@@ -17,6 +18,7 @@ class VodCardWidget extends StatelessWidget {
   final double imgWidth;
   final EdgeInsets padding;
   final double space;
+  final ImageErrorWidgetBuilder? errorBuilder;
 
   double get radiusSize => 12;
 
@@ -55,12 +57,16 @@ class VodCardWidget extends StatelessWidget {
                 child: CupertinoActivityIndicator(),
               );
             },
-            errorBuilder: (context, error, stackTrace) => ClipRRect(
-              borderRadius: BorderRadius.circular(radiusSize),
-              child: Center(
-                child: Text(_loadImageError),
-              ),
-            ),
+            errorBuilder: (context, error, stackTrace) =>
+                Builder(builder: (context) {
+              if (errorBuilder != null) return errorBuilder!(context, error, stackTrace);
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(radiusSize),
+                child: Center(
+                  child: Text(_loadImageError),
+                ),
+              );
+            }),
           ),
           SizedBox(
             width: space,
