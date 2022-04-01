@@ -33,6 +33,7 @@ void main() async {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       defaultTransition: Transition.cupertino,
+      // theme: CupertinoThemeData(brightness: Brightness.dark,),
     ),
   );
 }
