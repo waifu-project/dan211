@@ -8,8 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../controllers/home_controller.dart';
+import 'case_view.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
@@ -30,7 +32,12 @@ class HomeView extends GetView<HomeController> {
         leading: CupertinoButton(
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.command),
-          onPressed: () {},
+          onPressed: () {
+            showCupertinoModalBottomSheet(
+              context: context,
+              builder: (context) => DoMovieCaseView(),
+            );
+          },
         ),
         trailing: CupertinoButton(
           padding: EdgeInsets.zero,
