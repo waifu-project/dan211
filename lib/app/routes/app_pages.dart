@@ -4,6 +4,8 @@ import '../modules/art_detail/bindings/art_detail_binding.dart';
 import '../modules/art_detail/views/art_detail_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/vod_case/bindings/vod_case_binding.dart';
+import '../modules/vod_case/views/vod_case_view.dart';
 import '../modules/vod_detail/bindings/vod_detail_binding.dart';
 import '../modules/vod_detail/views/vod_detail_view.dart';
 import '../modules/vod_play/bindings/vod_play_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.VOD_SEARCH,
       page: () => VodSearchView(),
       binding: VodSearchBinding(),
+    ),
+    GetPage(
+      name: _Paths.VOD_CASE,
+      page: () => VodCaseView(),
+      binding: VodCaseBinding(),
     ),
   ];
 }

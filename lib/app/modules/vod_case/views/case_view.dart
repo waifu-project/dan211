@@ -3,6 +3,7 @@ import 'package:dan211/share/dan_movie_card.dart';
 import 'package:dan211/share/dan_movie_data.dart';
 import 'package:dan211/widget/k_list_tile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 class DoMovieCaseView extends StatelessWidget {
   const DoMovieCaseView({Key? key}) : super(key: key);
@@ -49,18 +50,25 @@ class DoMovieCaseView extends StatelessWidget {
               child: Column(
                 children: List.generate(
                   _data.length,
-                  (index) => CupertinoListTile(
-                    // selected: index % 2 == 0,
-                    trailing: const SizedBox.shrink(),
-                    contentPadding: EdgeInsets.zero,
-                    leading: const Icon(CupertinoIcons.videocam_circle,),
-                    title: Text(
-                      _data[index].text ?? "",
-                    ),
-                    onTap: () {
-                      //
-                    },
-                  ),
+                  (index) => Builder(builder: (context) {
+                    var curr = _data[index];
+                    return CupertinoListTile(
+                      // selected: index % 2 == 0,
+                      trailing: const SizedBox.shrink(),
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(
+                        CupertinoIcons.videocam_circle,
+                      ),
+                      title: Text(
+                        curr.text ?? "",
+                      ),
+                      onTap: () {
+                        Get.back<DanMovieCardItem>(
+                          result: curr,
+                        );
+                      },
+                    );
+                  }),
                 ),
               ),
             ),
