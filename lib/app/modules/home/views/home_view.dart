@@ -71,13 +71,9 @@ class HomeView extends GetView<HomeController> {
                                   children: [
                                     Builder(builder: (BuildContext context) {
                                       var canI1 = homeCard.indexOf(e) == 0;
-                                      var _style = CupertinoTheme.of(context)
-                                          .textTheme
-                                          .tabLabelTextStyle;
                                       var _text = canI1 ? "最新电影" : "最热电影";
                                       return Text(
                                         _text,
-                                        style: _style,
                                       );
                                     })
                                   ],
@@ -130,9 +126,8 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                   title: Text(
                                     e.title,
-                                    style: CupertinoTheme.of(context)
-                                        .textTheme
-                                        .tabLabelTextStyle,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   onTap: () {
                                     Get.toNamed(

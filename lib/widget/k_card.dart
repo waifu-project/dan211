@@ -72,7 +72,6 @@ class KMovieCard extends StatelessWidget {
             Text(
               title,
               maxLines: 1,
-              style: CupertinoTheme.of(context).textTheme.tabLabelTextStyle,
               overflow: TextOverflow.ellipsis,
             ),
           ],

@@ -82,10 +82,7 @@ class VodDetailView extends GetView<VodDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle? _caption = Theme.of(context).textTheme.caption;
-
-    Map<int, Widget> _tabs =
-        _tabData.map((e) => Text(e, style: _caption)).toList().asMap();
+    Map<int, Widget> _tabs = _tabData.map((e) => Text(e)).toList().asMap();
 
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
@@ -162,11 +159,7 @@ class VodDetailView extends GetView<VodDetailController> {
                                         },
                                         child: Text(
                                           curr.title,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button,
                                         ),
-                                        color: Theme.of(context).dividerColor,
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 12,
                                         ),
@@ -177,10 +170,15 @@ class VodDetailView extends GetView<VodDetailController> {
                               ),
                             ),
                           ),
-                          CupertinoScrollbar(
-                            child: SingleChildScrollView(
-                              child: Html(
-                                data: data.descHtml,
+                          DecoratedBox(
+                            decoration: const BoxDecoration(
+                              color: CupertinoColors.white,
+                            ),
+                            child: CupertinoScrollbar(
+                              child: SingleChildScrollView(
+                                child: Html(
+                                  data: data.descHtml,
+                                ),
                               ),
                             ),
                           ),
