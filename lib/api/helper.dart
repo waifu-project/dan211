@@ -8,9 +8,17 @@ String createVodTypeURL(int id) {
   return "/vodtype/$id.html";
 }
 
+/// [vodType] 为类型 `id`
 /// [action] 为空则为全部
-String createVodTypeAndTypeURL(int vodType, String action) {
-  return "/vodshow/$vodType---$action--------.html";
+/// [page] 页数
+///
+/// 不要🙅🏻‍♀️使用 [createVodTypeURL] 函数来生成线路操作
+String createVodTypeAndTypeURL({
+  required int vodType,
+  String action = "",
+  int page = 1,
+}) {
+  return "/vodshow/$vodType---$action-----$page---.html";
 }
 
 String createVodDetailURL(String detailID) {
@@ -33,6 +41,9 @@ String createVodPlayURL(String id) {
 enum PageQueryStringType {
   /// 搜索
   search,
+
+  /// 线路
+  vodtype,
 }
 
 extension SelfToString on PageQueryStringType {
@@ -40,6 +51,8 @@ extension SelfToString on PageQueryStringType {
     switch (this) {
       case PageQueryStringType.search:
         return "vodsearch";
+      case PageQueryStringType.vodtype:
+        return "vodtype";
       default:
         return "";
     }

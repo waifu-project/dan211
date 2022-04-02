@@ -1,4 +1,5 @@
 import 'package:dan211/app/modules/vod_search/views/page_bar.dart';
+import 'package:dan211/app/routes/app_pages.dart';
 import 'package:dan211/share/dan_movie_card.dart';
 import 'package:dan211/widget/k_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +13,6 @@ import 'case_view.dart';
 
 class VodCaseView extends StatelessWidget {
   const VodCaseView({Key? key}) : super(key: key);
-
-  final int _curr = 4;
 
   final String _unknowText = "未知";
 
@@ -67,36 +66,43 @@ class VodCaseView extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: List.generate(
-                        12,
+                        vodCase.data.tags.length,
                         (index) => Builder(builder: (context) {
-                          var isCurr = index == _curr;
+                          var curr = vodCase.data.tags[index];
+                          var isCurr = curr == vodCase.currentTag;
+                          var _color = CupertinoTheme.of(context)
+                              .scaffoldBackgroundColor;
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 3.0,
                               vertical: 1.0,
                             ),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: CupertinoTheme.of(context)
-                                    .scaffoldBackgroundColor,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: isCurr
-                                      ? _primaryColor
-                                      : Colors.transparent,
-                                  width: 2,
+                            child: GestureDetector(
+                              onTap: () {
+                                vodCase.changeCurrentTag(curr);
+                              },
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: _color,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: isCurr
+                                        ? _primaryColor
+                                        : Colors.transparent,
+                                    width: 2,
+                                  ),
                                 ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0,
-                                  vertical: 6.0,
-                                ),
-                                child: Text(
-                                  "电影",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: isCurr ? _primaryColor : null,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0,
+                                    vertical: 6.0,
+                                  ),
+                                  child: Text(
+                                    curr,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: isCurr ? _primaryColor : null,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -108,34 +114,56 @@ class VodCaseView extends StatelessWidget {
                   ),
                 ),
               ),
-              CupertinoPageBar(
-                onTap: (_type) {},
-              ),
-              Expanded(
-                child: CupertinoScrollbar(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 0.0,
-                      horizontal: 12.0,
-                    ),
-                    child: GridView.count(
-                        childAspectRatio: 4 / 6,
-                        mainAxisSpacing: 12.0,
-                        crossAxisSpacing: 24.0,
-                        crossAxisCount: 3,
-                        children: List.generate(
-                          24,
-                          (index) => const KMovieCard(
-                            radiusSize: 6,
-                            imageURL:
-                                "http://ljcdn.comtucdncom.com/upload/vod/20220401-1/b9ecac3e27671547de8341ed51eb1f3c.jpg",
-                            title: "天狗日记",
-                          ),
-                        ),
+              Builder(builder: (context) {
+                var _pageData = vodCase.data.pageData;
+                return CupertinoPageBar(
+                  isLoading: vodCase.isLoading,
+                  total: _pageData.total,
+                  current: _pageData.current,
+                  totalPage: _pageData.totalPage,
+                  onTap: vodCase.handlePrevAndNext,
+                );
+              }),
+              Builder(builder: (context) {
+                if (vodCase.data.pageData.total == -1 && !vodCase.isLoading) {
+                  return const Center(
+                    child: Text("内容为空或未知错误"),
+                  );
+                }
+                return Expanded(
+                  child: CupertinoScrollbar(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 0.0,
+                        horizontal: 12.0,
                       ),
+                      child: Builder(builder: (context) {
+                        var cards = vodCase.data.cards;
+                        return GridView.count(
+                          childAspectRatio: 4 / 6,
+                          mainAxisSpacing: 12.0,
+                          crossAxisSpacing: 24.0,
+                          crossAxisCount: 3,
+                          children: List.generate(
+                            cards.length,
+                            (index) => KMovieCard(
+                              radiusSize: 6,
+                              imageURL: cards[index].cover,
+                              title: cards[index].title,
+                              onTap: () {
+                                Get.toNamed(
+                                  Routes.VOD_DETAIL,
+                                  arguments: cards[index].id,
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),
