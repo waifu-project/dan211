@@ -97,7 +97,7 @@ class VodCaseController extends GetxController {
     } else {
       page++;
     }
-    await fetchData();
+    await fetchData(isInit: false,);
 
     /// 错误栈有内容回退操作
     if (errorStack.isNotEmpty) {
