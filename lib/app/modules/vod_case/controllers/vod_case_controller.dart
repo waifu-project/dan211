@@ -58,6 +58,7 @@ class VodCaseController extends GetxController {
 
   fetchData() async {
     isLoading = true;
+    data.tags = [];
     update();
     try {
       var _data = await SendHttp.getDataByVodType(
