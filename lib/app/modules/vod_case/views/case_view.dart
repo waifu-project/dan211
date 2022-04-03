@@ -12,6 +12,8 @@ class DoMovieCaseView extends StatelessWidget {
 
   List<DanMovieCardItem> get _data => danMovieShareConstData.data;
 
+  int get _curr => danMovieShareConstData.current;
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -52,9 +54,16 @@ class DoMovieCaseView extends StatelessWidget {
                   _data.length,
                   (index) => Builder(builder: (context) {
                     var curr = _data[index];
+                    var isCurrent = index == _curr;
                     return CupertinoListTile(
-                      // selected: index % 2 == 0,
-                      trailing: const SizedBox.shrink(),
+                      selected: isCurrent,
+                      trailing: Builder(builder: (context) {
+                        var currWidget = const Icon(
+                          CupertinoIcons.checkmark,
+                        );
+                        var _default = const SizedBox.shrink();
+                        return isCurrent ? currWidget : _default;
+                      }),
                       contentPadding: EdgeInsets.zero,
                       leading: const Icon(
                         CupertinoIcons.videocam_circle,
