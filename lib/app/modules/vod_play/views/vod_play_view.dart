@@ -21,90 +21,101 @@ class VodPlayView extends StatelessWidget {
         previousPageTitle: "返回",
       ),
       child: SafeArea(
-        child: CupertinoScrollbar(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CupertinoButton.filled(
-                          child: const Text("播放"),
-                          onPressed: () {
-                            /// TODO 目前仅支持 `ios`
-                            if (!GetPlatform.isIOS) {
-                              showCupertinoDialog(
-                                context: Get.context as BuildContext,
-                                builder: (_) => CupertinoAlertDialog(
-                                  title: const Text("提示"),
-                                  content: const Text("播放仅支持iOS平台"),
-                                  actions: [
-                                    CupertinoButton(
-                                      child: const Text('爷知道了'),
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                    )
-                                  ],
-                                ),
-                              );
-                              return;
-                            }
-                            var url = play.data.player.url;
-                            if (url.isNotEmpty) {
-                              launchURL(url);
-                            }
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "猜你喜欢",
-                              style: _table,
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: Get.width,
-                        height: 120,
-                        child: CupertinoScrollbar(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: IntrinsicHeight(
-                              child: Row(
-                                children: play.data.recommend
-                                    .map(
-                                      (sub) => Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: KMovieCard(
-                                          width: 120,
-                                          imageURL: sub.cover,
-                                          title: sub.title,
-                                          space: 6.0,
-                                          onTap: () {
-                                            Get.back(
-                                              result: sub.id,
-                                            );
+        child: DefaultTextStyle(
+          style: TextStyle(
+            color: CupertinoDynamicColor.resolve(
+              CupertinoColors.label,
+              context,
+            ),
+          ),
+          child: CupertinoScrollbar(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: CupertinoButton.filled(
+                              child: const Text("播放"),
+                              onPressed: () {
+                                /// TODO 目前仅支持 `ios`
+                                if (!GetPlatform.isIOS) {
+                                  showCupertinoDialog(
+                                    context: Get.context as BuildContext,
+                                    builder: (_) => CupertinoAlertDialog(
+                                      title: const Text("提示"),
+                                      content: const Text("播放仅支持iOS平台"),
+                                      actions: [
+                                        CupertinoButton(
+                                          child: const Text('爷知道了'),
+                                          onPressed: () {
+                                            Get.back();
                                           },
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                  return;
+                                }
+                                var url = play.data.player.url;
+                                if (url.isNotEmpty) {
+                                  launchURL(url);
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "猜你喜欢",
+                                style: _table,
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: Get.width,
+                          height: 120,
+                          child: CupertinoScrollbar(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  children: play.data.recommend
+                                      .map(
+                                        (sub) => Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: KMovieCard(
+                                            width: 150,
+                                            imageURL: sub.cover,
+                                            title: sub.title,
+                                            space: 6.0,
+                                            onTap: () {
+                                              Get.back(
+                                                result: sub.id,
+                                              );
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                    .toList(),
+                                      )
+                                      .toList(),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
