@@ -22,11 +22,16 @@ class VodSearchView extends GetView<VodSearchController> {
     return GetBuilder<VodSearchController>(builder: (vodSearch) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: CupertinoSearchTextField(
-            controller: vodSearch.searchController,
-            autofocus: true,
-            placeholder: _placeholder,
-            onSubmitted: vodSearch.handleSearch,
+          middle: Padding(
+            padding: const EdgeInsets.only(
+              right: 12.0,
+            ),
+            child: CupertinoSearchTextField(
+              controller: vodSearch.searchController,
+              autofocus: true,
+              placeholder: _placeholder,
+              onSubmitted: vodSearch.handleSearch,
+            ),
           ),
         ),
         child: SafeArea(
