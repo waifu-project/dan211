@@ -50,6 +50,7 @@ class VodCaseController extends GetxController {
     if (item == null) return;
     var _index = shareData.indexOf(item);
     if (_index <= -1) return;
+    danMovieShareConstData.current = _index;
     currentTag = "全部";
     update();
     caseIndex = _index;
@@ -105,7 +106,7 @@ class VodCaseController extends GetxController {
   }
 
   beforeHook() {
-    caseIndex = 0;
+    caseIndex = danMovieShareConstData.current;
   }
 
   @override

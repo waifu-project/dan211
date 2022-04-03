@@ -11,6 +11,13 @@ class DanMovieShareData {
 
   late List<DanMovieCardItem> data;
 
+  int current = 0;
+
+  /// TODO impl this
+  int getCurrentFromCache() {
+    throw Error;
+  }
+
   Future<List<DanMovieCardItem>> loadDataFromBuitlnAssets() async {
     String fileBuf = await rootBundle.loadString(_assetFile);
     List<dynamic> data = jsonDecode(fileBuf);
