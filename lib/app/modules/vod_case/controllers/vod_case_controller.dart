@@ -75,6 +75,11 @@ class VodCaseController extends GetxController {
     }
   }
 
+  double get pageBarHeigth {
+    if (data.tags.isEmpty) return 0;
+    return 42;
+  }
+
   handlePrevAndNext(CupertinoPageBarActionType _type) async {
     var _p = page;
     if (_type == CupertinoPageBarActionType.prev) {

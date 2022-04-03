@@ -20,7 +20,8 @@ class VodCaseView extends StatelessWidget {
   Widget build(BuildContext context) {
     Color _primaryColor = CupertinoTheme.of(context).primaryColor;
 
-    Color _label = CupertinoDynamicColor.resolve(CupertinoColors.label, context);
+    Color _label =
+        CupertinoDynamicColor.resolve(CupertinoColors.label, context);
 
     return GetBuilder<VodCaseController>(
       builder: (vodCase) => CupertinoPageScaffold(
@@ -57,61 +58,62 @@ class VodCaseView extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              DecoratedBox(
+              AnimatedContainer(
                 decoration: BoxDecoration(
                   color: CupertinoColors.opaqueSeparator.withOpacity(.2),
                 ),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 42,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(
-                        vodCase.data.tags.length,
-                        (index) => Builder(builder: (context) {
-                          var curr = vodCase.data.tags[index];
-                          var isCurr = curr == vodCase.currentTag;
-                          var _color = CupertinoTheme.of(context)
-                              .scaffoldBackgroundColor;
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 3.0,
-                              vertical: 1.0,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                vodCase.changeCurrentTag(curr);
-                              },
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: _color,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: isCurr
-                                        ? _primaryColor
-                                        : Colors.transparent,
-                                    width: 2,
-                                  ),
+                duration: const Duration(
+                  milliseconds: 420,
+                ),
+                width: double.infinity,
+                height: vodCase.pageBarHeigth,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(
+                      vodCase.data.tags.length,
+                      (index) => Builder(builder: (context) {
+                        var curr = vodCase.data.tags[index];
+                        var isCurr = curr == vodCase.currentTag;
+                        var _color =
+                            CupertinoTheme.of(context).scaffoldBackgroundColor;
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 3.0,
+                            vertical: 1.0,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              vodCase.changeCurrentTag(curr);
+                            },
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: _color,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: isCurr
+                                      ? _primaryColor
+                                      : Colors.transparent,
+                                  width: 2,
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0,
-                                    vertical: 6.0,
-                                  ),
-                                  child: Text(
-                                    curr,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: isCurr ? _primaryColor : _label,
-                                    ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0,
+                                  vertical: 6.0,
+                                ),
+                                child: Text(
+                                  curr,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: isCurr ? _primaryColor : _label,
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        }),
-                      ),
+                          ),
+                        );
+                      }),
                     ),
                   ),
                 ),
