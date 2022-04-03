@@ -62,8 +62,20 @@ class VodCardWidget extends StatelessWidget {
                       ),
                     );
                   }
-                  return const Center(
-                    child: CupertinoActivityIndicator(),
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(radiusSize),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.opaqueSeparator.withOpacity(.2),
+                      ),
+                      child: SizedBox(
+                        width: imgWidth,
+                        height: imgWidth * .72,
+                        child: const Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                      ),
+                    ),
                   );
                 },
                 errorBuilder: (context, error, stackTrace) =>
