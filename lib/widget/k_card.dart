@@ -63,8 +63,21 @@ class KMovieCard extends StatelessWidget {
                         ),
                       );
                     }
-                    return const Center(
-                      child: CupertinoActivityIndicator(),
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(radiusSize),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color:
+                              CupertinoColors.opaqueSeparator.withOpacity(.2),
+                        ),
+                        child: SizedBox(
+                          width: width,
+                          height: height,
+                          child: const Center(
+                            child: CupertinoActivityIndicator(),
+                          ),
+                        ),
+                      ),
                     );
                   },
                   errorBuilder: (context, error, stackTrace) => ClipRRect(
