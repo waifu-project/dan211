@@ -8,7 +8,7 @@ class VodCaseRespData {
     required this.cards,
   });
 
-  final RespPageData pageData;
-  final List<String> tags;
-  final List<VodCard> cards;
+  RespPageData pageData;
+  List<String> tags;
+  List<VodCard> cards;
 }

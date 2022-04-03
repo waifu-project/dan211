@@ -60,11 +60,15 @@ class VodCaseController extends GetxController {
     isLoading = true;
     update();
     try {
-      data = await SendHttp.getDataByVodType(
+      var _data = await SendHttp.getDataByVodType(
         item: currCaseItem,
         action: _currentTagText,
         page: page,
       );
+      if (_data.pageData.totalPage == -1) {
+        _data.tags = [];
+      }
+      data = _data;
       isLoading = false;
       errorStack = "";
       update();
