@@ -16,6 +16,7 @@ dependencies:
   url_launcher: 6.0.20
   flutter_html: ^2.2.1
   modal_bottom_sheet: ^2.0.1
+  get_storage: 2.0.3
   flutter: 
     sdk: flutter
 

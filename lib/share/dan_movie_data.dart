@@ -1,6 +1,9 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'dan_movie_card.dart';
 
@@ -13,9 +16,17 @@ class DanMovieShareData {
 
   int current = 0;
 
-  /// TODO impl this
+  final _box = GetStorage();
+
+  final String _KEY = "";
+
   int getCurrentFromCache() {
-    throw Error;
+    return _box.read<int>(_KEY) ?? 0;
+  }
+
+  Future<void> setCurrent(int newVal) async {
+    current = newVal;
+    return _box.write(_KEY, newVal);
   }
 
   Future<List<DanMovieCardItem>> loadDataFromBuitlnAssets() async {
@@ -29,6 +40,7 @@ class DanMovieShareData {
 
   Future<void> init() async {
     data = await loadDataFromBuitlnAssets();
+    current = getCurrentFromCache();
   }
 
   factory DanMovieShareData() => _instance;
