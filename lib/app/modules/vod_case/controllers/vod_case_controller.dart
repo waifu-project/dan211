@@ -43,7 +43,7 @@ class VodCaseController extends GetxController {
     currentTag = item;
     page = 1;
     update();
-    fetchData();
+    fetchData(isInit: false);
   }
 
   changeCaseIndex(DanMovieCardItem? item) {
@@ -56,9 +56,13 @@ class VodCaseController extends GetxController {
     update();
   }
 
-  fetchData() async {
+  fetchData({
+    bool isInit = true,
+  }) async {
     isLoading = true;
-    data.tags = [];
+    if (isInit) {
+      data.tags = [];
+    }
     update();
     try {
       var _data = await SendHttp.getDataByVodType(
