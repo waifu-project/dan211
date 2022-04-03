@@ -88,117 +88,125 @@ class VodDetailView extends GetView<VodDetailController> {
       navigationBar: const CupertinoNavigationBar(
         previousPageTitle: "返回",
       ),
-      child: SafeArea(
-        child: Obx(
-          () => showCRWidget
-              ? _buildCR
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FadeInImage.memoryNetwork(
-                          width: double.infinity,
-                          height: Get.height * .33,
-                          placeholder: kTransparentImage,
-                          image: data.cover,
-                          fit: BoxFit.cover,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(data.title),
-                        )
-                      ],
-                    ),
-                    Container(
-                      width: double.infinity,
-                      // height: 42,
-                      margin: const EdgeInsets.only(top: 12),
-                      child: CupertinoSlidingSegmentedControl(
-                        children: _tabs,
-                        groupValue: controller.tryGroupValue.value,
-                        onValueChanged: (int? value) {
-                          if (value == null) return;
-                          controller.tryGroupValue.value = value;
-                          // _page.jumpToPage(value);
-                          _page.animateToPage(
-                            value,
-                            duration: const Duration(
-                              milliseconds: 240,
-                            ),
-                            curve: Curves.ease,
-                          );
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: PageView(
-                        controller: _page,
-                        pageSnapping: true,
-                        dragStartBehavior: DragStartBehavior.down,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: <Widget>[
-                          CupertinoScrollbar(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: List.generate(
-                                  data.vodPlayer.length,
-                                  (index) {
-                                    var curr = data.vodPlayer[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: CupertinoButton(
-                                        minSize: 27,
-                                        onPressed: () {
-                                          handlePlay(curr);
-                                        },
-                                        child: Text(
-                                          curr.title,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
+      child: DefaultTextStyle(
+        style: TextStyle(
+          color: CupertinoDynamicColor.resolve(
+            CupertinoColors.label,
+            context,
+          ),
+        ),
+        child: SafeArea(
+          child: Obx(
+            () => showCRWidget
+                ? _buildCR
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FadeInImage.memoryNetwork(
+                            width: double.infinity,
+                            height: Get.height * .33,
+                            placeholder: kTransparentImage,
+                            image: data.cover,
+                            fit: BoxFit.cover,
                           ),
-                          DecoratedBox(
-                            decoration: const BoxDecoration(
-                              color: CupertinoColors.white,
-                            ),
-                            child: CupertinoScrollbar(
-                              child: SingleChildScrollView(
-                                child: Html(
-                                  data: data.descHtml,
-                                ),
-                              ),
-                            ),
+                          const SizedBox(
+                            height: 12,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text("猜你喜欢"),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text("啥也没有"),
-                            ),
-                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(data.title),
+                          )
                         ],
                       ),
-                    ),
-                  ],
-                ),
+                      Container(
+                        width: double.infinity,
+                        // height: 42,
+                        margin: const EdgeInsets.only(top: 12),
+                        child: CupertinoSlidingSegmentedControl(
+                          children: _tabs,
+                          groupValue: controller.tryGroupValue.value,
+                          onValueChanged: (int? value) {
+                            if (value == null) return;
+                            controller.tryGroupValue.value = value;
+                            // _page.jumpToPage(value);
+                            _page.animateToPage(
+                              value,
+                              duration: const Duration(
+                                milliseconds: 240,
+                              ),
+                              curve: Curves.ease,
+                            );
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: PageView(
+                          controller: _page,
+                          pageSnapping: true,
+                          dragStartBehavior: DragStartBehavior.down,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: <Widget>[
+                            CupertinoScrollbar(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: List.generate(
+                                    data.vodPlayer.length,
+                                    (index) {
+                                      var curr = data.vodPlayer[index];
+                                      return Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: CupertinoButton(
+                                          minSize: 27,
+                                          onPressed: () {
+                                            handlePlay(curr);
+                                          },
+                                          child: Text(
+                                            curr.title,
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DecoratedBox(
+                              decoration: const BoxDecoration(
+                                color: CupertinoColors.white,
+                              ),
+                              child: CupertinoScrollbar(
+                                child: SingleChildScrollView(
+                                  child: Html(
+                                    data: data.descHtml,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text("猜你喜欢"),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text("啥也没有"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );

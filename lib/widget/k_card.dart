@@ -30,51 +30,59 @@ class KMovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Image.network(
-                imageURL,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radiusSize),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          radiusSize,
+    return DefaultTextStyle(
+      style: TextStyle(
+        color: CupertinoDynamicColor.resolve(
+          CupertinoColors.label,
+          context,
+        ),
+      ),
+      child: GestureDetector(
+        onTap: onTap,
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Image.network(
+                  imageURL,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radiusSize),
                         ),
-                        child: child,
-                      ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            radiusSize,
+                          ),
+                          child: child,
+                        ),
+                      );
+                    }
+                    return const Center(
+                      child: CupertinoActivityIndicator(),
                     );
-                  }
-                  return const Center(
-                    child: CupertinoActivityIndicator(),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) => ClipRRect(
-                  borderRadius: BorderRadius.circular(radiusSize),
-                  child: const Center(
-                    child: Text("加载失败"),
+                  },
+                  errorBuilder: (context, error, stackTrace) => ClipRRect(
+                    borderRadius: BorderRadius.circular(radiusSize),
+                    child: const Center(
+                      child: Text("加载失败"),
+                    ),
                   ),
                 ),
               ),
-            ),
-            _spaceWidget,
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+              _spaceWidget,
+              Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );

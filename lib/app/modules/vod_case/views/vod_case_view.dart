@@ -20,6 +20,8 @@ class VodCaseView extends StatelessWidget {
   Widget build(BuildContext context) {
     Color _primaryColor = CupertinoTheme.of(context).primaryColor;
 
+    Color _label = CupertinoDynamicColor.resolve(CupertinoColors.label, context);
+
     return GetBuilder<VodCaseController>(
       builder: (vodCase) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
@@ -101,7 +103,7 @@ class VodCaseView extends StatelessWidget {
                                     curr,
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: isCurr ? _primaryColor : null,
+                                      color: isCurr ? _primaryColor : _label,
                                     ),
                                   ),
                                 ),

@@ -55,67 +55,75 @@ class CupertinoPageBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: _mainAxisAlignment,
-        children: [
-          Builder(builder: (context) {
-            if (_canShowToolBar) return const SizedBox.shrink();
-            return Row(
-              children: [
-                CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  child: Row(
-                    children: [
-                      const Icon(CupertinoIcons.back),
-                      Text(prevText),
-                    ],
+    return DefaultTextStyle(
+      style: TextStyle(
+        color: CupertinoDynamicColor.resolve(
+          CupertinoColors.label,
+          context,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: _mainAxisAlignment,
+          children: [
+            Builder(builder: (context) {
+              if (_canShowToolBar) return const SizedBox.shrink();
+              return Row(
+                children: [
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    child: Row(
+                      children: [
+                        const Icon(CupertinoIcons.back),
+                        Text(prevText),
+                      ],
+                    ),
+                    onPressed: !_isPrev ? null : () {
+                      onTap(CupertinoPageBarActionType.prev);
+                    },
                   ),
-                  onPressed: !_isPrev ? null : () {
-                    onTap(CupertinoPageBarActionType.prev);
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                    ),
+                    child: Text("$current/$totalPage"),
                   ),
-                  child: Text("$current/$totalPage"),
-                ),
-                CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  child: Row(
-                    children: [
-                      Text(nextText),
-                      const Icon(CupertinoIcons.right_chevron),
-                    ],
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    child: Row(
+                      children: [
+                        Text(nextText),
+                        const Icon(CupertinoIcons.right_chevron),
+                      ],
+                    ),
+                    onPressed: !_isNext ? null : () {
+                      onTap(CupertinoPageBarActionType.next);
+                    },
                   ),
-                  onPressed: !_isNext ? null : () {
-                    onTap(CupertinoPageBarActionType.next);
-                  },
-                ),
-              ],
-            );
-          }),
-          AnimatedOpacity(
-            opacity: _opacity,
-            duration: const Duration(
-              milliseconds: 420,
-            ),
-            child: Row(
-              children: [
-                const CupertinoActivityIndicator(),
-                const SizedBox(
-                  width: 6,
-                ),
-                Text(loadingText),
-                const SizedBox(
-                  width: 3,
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              );
+            }),
+            AnimatedOpacity(
+              opacity: _opacity,
+              duration: const Duration(
+                milliseconds: 420,
+              ),
+              child: Row(
+                children: [
+                  const CupertinoActivityIndicator(),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Text(loadingText),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
