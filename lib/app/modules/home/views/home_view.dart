@@ -61,22 +61,11 @@ class HomeView extends GetView<HomeController> {
                         ...homeCard.map((e) {
                           return Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Builder(builder: (BuildContext context) {
-                                      var canI1 = homeCard.indexOf(e) == 0;
-                                      var _text = canI1 ? "最新电影" : "最热电影";
-                                      return Text(
-                                        _text,
-                                      );
-                                    })
-                                  ],
-                                ),
-                              ),
+                              Builder(builder: (BuildContext context) {
+                                var canI1 = homeCard.indexOf(e) == 0;
+                                var _text = canI1 ? "最新电影" : "最热电影";
+                                return _navTitle(_text);
+                              }),
                               SizedBox(
                                 width: Get.width,
                                 height: 120,
