@@ -29,15 +29,31 @@ class VodDetailView extends GetView<VodDetailController> {
           child: Center(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: Get.isDarkMode
-                    ? CupertinoColors.darkBackgroundGray.withOpacity(.72)
-                    : CupertinoColors.white.withOpacity(.72),
+                color: CupertinoColors.darkBackgroundGray.withOpacity(.72),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const SizedBox(
-                child: CupertinoActivityIndicator(),
-                width: 90,
-                height: 90,
+              child: Builder(
+                builder: (context) {
+                  var _primaryColor = CupertinoTheme.of(context).primaryColor;
+                  return SizedBox(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const CircularProgressIndicator(),
+                        const SizedBox(height: 12,),
+                        Text(
+                          "加载中",
+                          style: TextStyle(
+                            color: _primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    width: 120,
+                    height: 120,
+                  );
+                }
               ),
             ),
           ),
