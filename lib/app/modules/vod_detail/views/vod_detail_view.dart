@@ -24,38 +24,38 @@ class VodDetailView extends GetView<VodDetailController> {
     try {
       var id = ctx.url;
       debugPrint("player id: $id");
-      Get.dialog(
-        Expanded(
-          child: Center(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: CupertinoColors.darkBackgroundGray.withOpacity(.72),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Builder(
-                builder: (context) {
-                  var _primaryColor = CupertinoTheme.of(context).primaryColor;
-                  return SizedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const CircularProgressIndicator(),
-                        const SizedBox(height: 12,),
-                        Text(
-                          "加载中",
-                          style: TextStyle(
-                            color: _primaryColor,
-                          ),
+      Get.defaultDialog(
+        title: "",
+        backgroundColor: Colors.transparent,
+        content: Center(
+          child: Builder(
+            builder: (context) {
+              var _primaryColor = CupertinoTheme.of(context).primaryColor;
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  color: CupertinoColors.darkBackgroundGray.withOpacity(.72),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: SizedBox(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 12,),
+                      Text(
+                        "加载中",
+                        style: TextStyle(
+                          color: _primaryColor,
                         ),
-                      ],
-                    ),
-                    width: 120,
-                    height: 120,
-                  );
-                }
-              ),
-            ),
+                      ),
+                    ],
+                  ),
+                  width: 120,
+                  height: 120,
+                ),
+              );
+            }
           ),
         ),
       );
