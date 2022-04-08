@@ -174,7 +174,12 @@ class HomeView extends GetView<HomeController> {
         children: [
           Text(
             title,
-            style: CupertinoTheme.of(ctx).textTheme.tabLabelTextStyle,
+            style: TextStyle(
+              color: CupertinoDynamicColor.resolve(
+                CupertinoColors.label,
+                ctx,
+              ),
+            ),
           ),
         ],
       ),
