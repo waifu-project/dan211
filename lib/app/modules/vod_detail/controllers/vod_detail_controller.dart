@@ -1,6 +1,7 @@
 import 'package:dan211/api/send.dart';
 import 'package:dan211/modules/vod_detail.dart';
 import 'package:dan211/modules/vod_play.dart';
+import 'package:dan211/share/dan_av_studio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -67,17 +68,20 @@ class VodDetailController extends GetxController {
     }
   }
 
+  DanAvStudio avStudio = DanAvStudio();
+
+  List<String> get avStudioData => avStudio.data;
+
+  initAvStudio() async {
+    await avStudio.init();
+  }
+
   @override
   void onInit() {
     super.onInit();
     getIDFromArgs();
+    initAvStudio();
     fetchVodDetail();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    print("the action");
   }
 
   @override

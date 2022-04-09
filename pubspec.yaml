@@ -36,7 +36,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/buitln/tags.json
+    - assets/buitln/
 
 # flutter pub run flutter_launcher_name:main
 flutter_launcher_name:

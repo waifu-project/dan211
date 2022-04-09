@@ -1,5 +1,7 @@
 import 'package:dan211/app/routes/app_pages.dart';
 import 'package:dan211/modules/vod_detail.dart';
+import 'package:dan211/utils/helper.dart';
+import 'package:dan211/widget/expandable.dart';
 import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_transparent_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,35 +30,35 @@ class VodDetailView extends GetView<VodDetailController> {
         title: "",
         backgroundColor: Colors.transparent,
         content: Center(
-          child: Builder(
-            builder: (context) {
-              var _primaryColor = CupertinoTheme.of(context).primaryColor;
-              return DecoratedBox(
-                decoration: BoxDecoration(
-                  color: CupertinoColors.darkBackgroundGray.withOpacity(.72),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: SizedBox(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const CircularProgressIndicator(),
-                      const SizedBox(height: 12,),
-                      Text(
-                        "加载中",
-                        style: TextStyle(
-                          color: _primaryColor,
-                        ),
+          child: Builder(builder: (context) {
+            var _primaryColor = CupertinoTheme.of(context).primaryColor;
+            return DecoratedBox(
+              decoration: BoxDecoration(
+                color: CupertinoColors.darkBackgroundGray.withOpacity(.72),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: SizedBox(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      "加载中",
+                      style: TextStyle(
+                        color: _primaryColor,
                       ),
-                    ],
-                  ),
-                  width: 120,
-                  height: 120,
+                    ),
+                  ],
                 ),
-              );
-            }
-          ),
+                width: 120,
+                height: 120,
+              ),
+            );
+          }),
         ),
       );
       var data = await controller.getPlayURL(id);
@@ -96,6 +98,73 @@ class VodDetailView extends GetView<VodDetailController> {
     "评论",
   ];
 
+  bool get _hasAvCode => _avCode.isNotEmpty;
+
+  /// 匹配规则
+  ///
+  /// ` NTF-2434 你好李鑫 `
+  ///
+  /// 最低效的算法
+  ///
+  ///
+  String get _avCode {
+    var _title = data.title;
+    if (_title.isEmpty) return "";
+    var _av = controller.avStudioData;
+    var _contextIndex = -1;
+
+    /// NOTE: 常用的匹配规则大概就是这两种?
+    ///
+    /// ```
+    /// NTF-2434
+    ///
+    /// NTF_2434
+    /// ```
+    var _sybs = [
+      "-",
+      "_",
+    ];
+    var _sybIndex = 0;
+    var flag = _av.firstWhere((element) {
+      // [element + "-", element + "_"];
+      var _label = _sybs.map((item) => element + item).toList();
+      return _label.firstWhere((sub) {
+        var _bindIndex = _title.indexOf(sub);
+        var check = _bindIndex >= 0;
+        if (check) {
+          _contextIndex = _bindIndex + sub.length;
+          _sybIndex = _label.indexOf(sub);
+        }
+        return check;
+      }, orElse: () => "").isNotEmpty;
+    }, orElse: () => "");
+    if (flag.isEmpty) return "";
+    var output = flag + _sybs[_sybIndex];
+    var numArray = [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+    ];
+    List<String> _words = _title.substring(_contextIndex).split("");
+    for (var i = 0; i < _words.length; i++) {
+      String element = _words[i];
+      var isNum = numArray.any((n) => n.toString() == element);
+      if (isNum) {
+        output += element;
+      } else {
+        break;
+      }
+    }
+    return output;
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<int, Widget> _tabs = _tabData.map((e) => Text(e)).toList().asMap();
@@ -133,8 +202,37 @@ class VodDetailView extends GetView<VodDetailController> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(data.title),
-                          )
+                            child: Builder(builder: (context) {
+                              if (_hasAvCode) {
+                                return Material(
+                                  color: Colors.transparent,
+                                  child: ExpandablePanel(
+                                    header: Text(data.title),
+                                    collapsed: const SizedBox.shrink(),
+                                    expanded: CupertinoButton.filled(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0,
+                                      ),
+                                      child: const Text("复制车牌号"),
+                                      onPressed: () async {
+                                        var _pColor = CupertinoTheme.of(context).primaryColor;
+                                        await setClipboardText(_avCode);
+                                        Get.snackbar(
+                                          "提示",
+                                          "已复制到剪贴板",
+                                          colorText: _pColor,
+                                          duration: const Duration(seconds: 2),
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          icon: const Icon(CupertinoIcons.sidebar_right),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Text(data.title);
+                            }),
+                          ),
                         ],
                       ),
                       Container(
