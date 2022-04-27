@@ -3,7 +3,6 @@ import 'package:dan211/share/dan_movie_card.dart';
 import 'package:dan211/share/dan_movie_data.dart';
 import 'package:dan211/widget/k_list_tile.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DoMovieCaseView extends StatefulWidget {
