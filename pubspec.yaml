@@ -37,6 +37,7 @@ flutter:
 
   assets:
     - assets/buitln/
+    - assets/empty.png
 
 # flutter pub run flutter_launcher_name:main
 flutter_launcher_name:

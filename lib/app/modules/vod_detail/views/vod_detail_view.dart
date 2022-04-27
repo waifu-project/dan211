@@ -209,6 +209,17 @@ class VodDetailView extends GetView<VodDetailController> {
                               placeholder: kTransparentImage,
                               image: data.cover,
                               fit: BoxFit.cover,
+                              imageErrorBuilder: (
+                                context,
+                                object,
+                                stackTrace,
+                              ) =>
+                                  Image.asset(
+                                "assets/empty.png",
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: Get.height * .33,
+                              ),
                             ),
                           ),
                           const SizedBox(

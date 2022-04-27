@@ -42,6 +42,17 @@ class VodPlayView extends StatelessWidget {
                       placeholder: kTransparentImage,
                       image: play.vodDetailCover,
                       fit: BoxFit.cover,
+                      imageErrorBuilder: (
+                        context,
+                        object,
+                        stackTrace,
+                      ) =>
+                          Image.asset(
+                        "assets/empty.png",
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: Get.height * .42,
+                      ),
                     ),
                   ),
                   Column(
