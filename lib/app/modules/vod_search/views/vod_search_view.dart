@@ -1,10 +1,9 @@
 import 'package:dan211/app/modules/vod_search/views/page_bar.dart';
 import 'package:dan211/app/modules/vod_search/views/w_vod_card.dart';
 import 'package:dan211/app/routes/app_pages.dart';
-import 'package:dan211/modules/vod_movie.dart';
 import 'package:dan211/widget/k_error_stack.dart';
+import 'package:dan211/widget/photo_hero.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
@@ -94,31 +93,34 @@ class VodSearchView extends GetView<VodSearchController> {
                           _data.length,
                           (index) => Builder(builder: (context) {
                             var curr = _data[index];
-                            return VodCardWidget(
-                              space: 12.0,
-                              imageURL: curr.cover,
-                              onTap: () {
-                                Get.toNamed(
-                                  Routes.VOD_DETAIL,
-                                  arguments: curr.id,
-                                );
-                              },
-                              title: curr.title,
-                              errorBuilder: (context, error, stackTrace) {
-                                return SizedBox(
-                                  width: 90,
-                                  height: 72,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.inactiveGray,
-                                      borderRadius: BorderRadius.circular(12.0),
+                            return PhotoHero(
+                              photo: curr.cover,
+                              child: VodCardWidget(
+                                space: 12.0,
+                                imageURL: curr.cover,
+                                onTap: () {
+                                  Get.toNamed(
+                                    Routes.VOD_DETAIL,
+                                    arguments: curr.id,
+                                  );
+                                },
+                                title: curr.title,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return SizedBox(
+                                    width: 90,
+                                    height: 72,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: CupertinoColors.inactiveGray,
+                                        borderRadius: BorderRadius.circular(12.0),
+                                      ),
+                                      child: const Center(
+                                        child: Text("加载失败 :("),
+                                      ),
                                     ),
-                                    child: const Center(
-                                      child: Text("加载失败 :("),
-                                    ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             );
                           }),
                         ).toList(),
