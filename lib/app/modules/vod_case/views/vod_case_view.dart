@@ -2,6 +2,7 @@ import 'package:dan211/app/modules/vod_search/views/page_bar.dart';
 import 'package:dan211/app/routes/app_pages.dart';
 import 'package:dan211/share/dan_movie_card.dart';
 import 'package:dan211/widget/k_card.dart';
+import 'package:dan211/widget/photo_hero.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -150,16 +151,19 @@ class VodCaseView extends StatelessWidget {
                           crossAxisCount: 3,
                           children: List.generate(
                             cards.length,
-                            (index) => KMovieCard(
-                              radiusSize: 6,
-                              imageURL: cards[index].cover,
-                              title: cards[index].title,
-                              onTap: () {
-                                Get.toNamed(
-                                  Routes.VOD_DETAIL,
-                                  arguments: cards[index].id,
-                                );
-                              },
+                            (index) => PhotoHero(
+                              photo: cards[index].cover,
+                              child: KMovieCard(
+                                radiusSize: 6,
+                                imageURL: cards[index].cover,
+                                title: cards[index].title,
+                                onTap: () {
+                                  Get.toNamed(
+                                    Routes.VOD_DETAIL,
+                                    arguments: cards[index].id,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         );
