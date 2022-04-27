@@ -5,6 +5,7 @@ import 'package:dan211/utils/helper.dart';
 import 'package:dan211/widget/expandable.dart';
 import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_transparent_image.dart';
+import 'package:dan211/widget/photo_hero.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -195,12 +196,15 @@ class VodDetailView extends GetView<VodDetailController> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FadeInImage.memoryNetwork(
-                            width: double.infinity,
-                            height: Get.height * .33,
-                            placeholder: kTransparentImage,
-                            image: data.cover,
-                            fit: BoxFit.cover,
+                          PhotoHero(
+                            photo: data.cover,
+                            child: FadeInImage.memoryNetwork(
+                              width: double.infinity,
+                              height: Get.height * .33,
+                              placeholder: kTransparentImage,
+                              image: data.cover,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           const SizedBox(
                             height: 12,
