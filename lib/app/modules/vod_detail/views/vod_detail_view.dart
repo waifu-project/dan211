@@ -169,16 +169,20 @@ class VodDetailView extends GetView<VodDetailController> {
   Widget build(BuildContext context) {
     Map<int, Widget> _tabs = _tabData.map((e) => Text(e)).toList().asMap();
 
+    Color _labelColor = CupertinoDynamicColor.resolve(
+      CupertinoColors.label,
+      context,
+    );
+
+    var _pColor = CupertinoTheme.of(context).primaryColor;
+
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
         previousPageTitle: "返回",
       ),
       child: DefaultTextStyle(
         style: TextStyle(
-          color: CupertinoDynamicColor.resolve(
-            CupertinoColors.label,
-            context,
-          ),
+          color: _labelColor,
         ),
         child: SafeArea(
           child: Obx(
@@ -201,21 +205,33 @@ class VodDetailView extends GetView<VodDetailController> {
                             height: 12,
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(12.0),
                             child: Builder(builder: (context) {
                               if (_hasAvCode) {
                                 return Material(
                                   color: Colors.transparent,
                                   child: ExpandablePanel(
-                                    header: Text(data.title),
+                                    header: Text(
+                                      data.title,
+                                      style: TextStyle(
+                                        color: _labelColor,
+                                      ),
+                                    ),
                                     collapsed: const SizedBox.shrink(),
+                                    theme: ExpandableThemeData(
+                                      iconColor: _pColor,
+                                    ),
                                     expanded: CupertinoButton.filled(
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 12.0,
+                                        horizontal: 24.0,
                                       ),
-                                      child: const Text("复制车牌号"),
+                                      child: const Text(
+                                        "复制车牌号",
+                                        style: TextStyle(
+                                          color: CupertinoColors.white,
+                                        ),
+                                      ),
                                       onPressed: () async {
-                                        var _pColor = CupertinoTheme.of(context).primaryColor;
                                         await setClipboardText(_avCode);
                                         Get.snackbar(
                                           "提示",
@@ -223,7 +239,9 @@ class VodDetailView extends GetView<VodDetailController> {
                                           colorText: _pColor,
                                           duration: const Duration(seconds: 2),
                                           snackPosition: SnackPosition.BOTTOM,
-                                          icon: const Icon(CupertinoIcons.sidebar_right),
+                                          icon: const Icon(
+                                            CupertinoIcons.sidebar_right,
+                                          ),
                                         );
                                       },
                                     ),
