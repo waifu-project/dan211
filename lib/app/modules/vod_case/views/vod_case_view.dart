@@ -131,8 +131,25 @@ class VodCaseView extends StatelessWidget {
               }),
               Builder(builder: (context) {
                 if (vodCase.data.pageData.total == -1 && !vodCase.isLoading) {
-                  return const Center(
-                    child: Text("内容为空或未知错误"),
+                  return Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          CupertinoIcons.dot_radiowaves_left_right,
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          "内容为空或未知错误",
+                          style: TextStyle(
+                            color: CupertinoTheme.of(context).primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }
                 return Expanded(
