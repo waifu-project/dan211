@@ -1,3 +1,4 @@
+import 'package:dan211/config/dart_const.dart';
 import 'package:dan211/utils/helper.dart';
 import 'package:dan211/widget/k_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,7 @@ class VodPlayView extends StatelessWidget {
 
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        previousPageTitle: "返回",
+        previousPageTitle: PREV_BUTTON_TITLE,
       ),
       child: SafeArea(
         child: DefaultTextStyle(

@@ -63,7 +63,7 @@ class _DoMovieCaseViewState extends State<DoMovieCaseView> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        previousPageTitle: "返回",
+        previousPageTitle: PREV_BUTTON_TITLE,
         middle: Text(_title),
         trailing: CupertinoButton(
           padding: EdgeInsets.zero,

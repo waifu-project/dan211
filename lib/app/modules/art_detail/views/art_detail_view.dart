@@ -1,3 +1,4 @@
+import 'package:dan211/config/dart_const.dart';
 import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_transparent_image.dart';
 import 'package:dan211/widget/lazy_load_scrollview.dart';
@@ -19,7 +20,7 @@ class ArtDetailView extends GetView<ArtDetailController> {
 
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        previousPageTitle: "返回",
+        previousPageTitle: PREV_BUTTON_TITLE,
       ),
       child: SafeArea(
         child: Obx(

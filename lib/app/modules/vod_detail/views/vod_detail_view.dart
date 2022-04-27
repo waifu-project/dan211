@@ -1,4 +1,5 @@
 import 'package:dan211/app/routes/app_pages.dart';
+import 'package:dan211/config/dart_const.dart';
 import 'package:dan211/modules/vod_detail.dart';
 import 'package:dan211/utils/helper.dart';
 import 'package:dan211/widget/expandable.dart';
@@ -178,7 +179,7 @@ class VodDetailView extends GetView<VodDetailController> {
 
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        previousPageTitle: "返回",
+        previousPageTitle: PREV_BUTTON_TITLE,
       ),
       child: DefaultTextStyle(
         style: TextStyle(
