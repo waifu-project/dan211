@@ -64,7 +64,7 @@ class HomeView extends GetView<HomeController> {
                               Builder(builder: (BuildContext context) {
                                 var canI1 = homeCard.indexOf(e) == 0;
                                 var _text = canI1 ? "最新电影" : "最热电影";
-                                return _navTitle(_text);
+                                return _navTitle(_text, context);
                               }),
                               SizedBox(
                                 width: Get.width,
@@ -103,7 +103,7 @@ class HomeView extends GetView<HomeController> {
                             ],
                           );
                         }).toList(),
-                        _navTitle("最新影视资讯"),
+                        _navTitle("最新影视资讯", context),
                         Column(
                           children: controller.data.value.artDatas
                               .map(
@@ -164,8 +164,8 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _navTitle(String title) {
-    var ctx = Get.context;
+  Widget _navTitle(String title, [BuildContext? context]) {
+    var ctx = context ?? Get.context;
     if (ctx == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.all(8.0),
