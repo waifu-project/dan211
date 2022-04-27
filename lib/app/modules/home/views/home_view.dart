@@ -4,6 +4,7 @@ import 'package:dan211/modules/vod_movie.dart';
 import 'package:dan211/widget/k_card.dart';
 import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_list_tile.dart';
+import 'package:dan211/widget/photo_hero.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -76,21 +77,24 @@ class HomeView extends GetView<HomeController> {
                                       child: Row(
                                         children: e.vodCards
                                             .map(
-                                              (sub) => Padding(
-                                                padding: const EdgeInsets.all(
-                                                  8.0,
-                                                ),
-                                                child: KMovieCard(
-                                                  width: 120,
-                                                  imageURL: sub.cover,
-                                                  title: sub.title,
-                                                  space: 6.0,
-                                                  onTap: () {
-                                                    Get.toNamed(
-                                                      Routes.VOD_DETAIL,
-                                                      arguments: sub.id,
-                                                    );
-                                                  },
+                                              (sub) => PhotoHero(
+                                                photo: sub.cover,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                    8.0,
+                                                  ),
+                                                  child: KMovieCard(
+                                                    width: 120,
+                                                    imageURL: sub.cover,
+                                                    title: sub.title,
+                                                    space: 6.0,
+                                                    onTap: () {
+                                                      Get.toNamed(
+                                                        Routes.VOD_DETAIL,
+                                                        arguments: sub.id,
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
                                               ),
                                             )
