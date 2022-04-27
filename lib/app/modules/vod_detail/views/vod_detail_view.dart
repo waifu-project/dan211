@@ -22,6 +22,11 @@ class VodDetailView extends GetView<VodDetailController> {
 
   VodDetailData get data => controller.data.value;
 
+  /// 是否有播放地址
+  bool get _notPlayer {
+    return data.vodPlayer.isEmpty;
+  }
+
   final PageController _page = PageController(initialPage: 0);
 
   handlePlay(VodPlayer ctx) async {
@@ -286,34 +291,42 @@ class VodDetailView extends GetView<VodDetailController> {
                           dragStartBehavior: DragStartBehavior.down,
                           physics: const NeverScrollableScrollPhysics(),
                           children: <Widget>[
-                            CupertinoScrollbar(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: List.generate(
-                                    data.vodPlayer.length,
-                                    (index) {
-                                      var curr = data.vodPlayer[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: CupertinoButton(
-                                          minSize: 27,
-                                          onPressed: () {
-                                            handlePlay(curr);
-                                          },
-                                          child: Text(
-                                            curr.title,
+                            Builder(builder: (context) {
+                              if (_notPlayer) {
+                                return const Center(
+                                  child: Text("暂无播放地址"),
+                                );
+                              }
+                              return CupertinoScrollbar(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: List.generate(
+                                      data.vodPlayer.length,
+                                      (index) {
+                                        var curr = data.vodPlayer[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: CupertinoButton(
+                                            minSize: 27,
+                                            onPressed: () {
+                                              handlePlay(curr);
+                                            },
+                                            child: Text(
+                                              curr.title,
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                            ),
                                           ),
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            }),
                             DecoratedBox(
                               decoration: const BoxDecoration(
                                 color: CupertinoColors.white,
