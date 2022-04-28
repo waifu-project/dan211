@@ -1,7 +1,9 @@
 import 'package:dan211/config/dart_const.dart';
 import 'package:dan211/utils/helper.dart';
+import 'package:dan211/widget/k_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ShowCasePage extends StatefulWidget {
   const ShowCasePage({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class ShowCasePage extends StatefulWidget {
 class _ShowCasePageState extends State<ShowCasePage> {
   final List<String> _tabs = const [
     "使用介绍",
+    "设置",
     "关于",
   ];
 
@@ -34,6 +37,12 @@ class _ShowCasePageState extends State<ShowCasePage> {
   final PageController _pageController = PageController(
     initialPage: 0,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    canUseSystem = GetStorage().read("can_use_system") ?? true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +73,7 @@ class _ShowCasePageState extends State<ShowCasePage> {
                     controller: _pageController,
                     children: [
                       _buildUseHelp(),
+                      _buildSettings(),
                       _buildAbout(),
                     ],
                   ),
@@ -73,6 +83,31 @@ class _ShowCasePageState extends State<ShowCasePage> {
           ),
         ),
       ),
+    );
+  }
+
+  /// 是否使用系统浏览器
+  bool canUseSystem = false;
+
+  Widget _buildSettings() {
+    return Column(
+      children: [
+        CupertinoListTile(
+          title: const Text("播放使用系统浏览器\n(iOS only)"),
+          leading: const Icon(
+            CupertinoIcons.arrow_right_circle_fill,
+          ),
+          trailing: CupertinoSwitch(
+            value: canUseSystem,
+            onChanged: (bool value) {
+              /// FIXME
+              canUseSystem = value;
+              setState(() {});
+              GetStorage().write("can_use_system", value);
+            },
+          ),
+        ),
+      ],
     );
   }
 

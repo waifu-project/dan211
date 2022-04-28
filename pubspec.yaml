@@ -17,6 +17,7 @@ dependencies:
   flutter_html: ^2.2.1
   modal_bottom_sheet: ^2.0.1
   get_storage: 2.0.3
+  flutter_playout: ^2.0.1
   flutter: 
     sdk: flutter
 

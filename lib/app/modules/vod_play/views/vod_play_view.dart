@@ -1,3 +1,4 @@
+import 'package:dan211/app/modules/single_page/easy_player.dart';
 import 'package:dan211/config/dart_const.dart';
 import 'package:dan211/utils/helper.dart';
 import 'package:dan211/widget/k_card.dart';
@@ -6,6 +7,7 @@ import 'package:dan211/widget/photo_hero.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../controllers/vod_play_controller.dart';
 
@@ -84,8 +86,13 @@ class VodPlayView extends StatelessWidget {
                                 return;
                               }
                               var url = play.data.player.url;
-                              if (url.isNotEmpty) {
+                              if (url.isEmpty) return;
+                              var key = "can_use_system";
+                              var canUseSystem = GetStorage().read<bool>(key) ?? true;
+                              if (canUseSystem) {
                                 launchURL(url);
+                              } else {
+                                Get.to(() => VideoPlayout(url: url));
                               }
                             },
                           ),
