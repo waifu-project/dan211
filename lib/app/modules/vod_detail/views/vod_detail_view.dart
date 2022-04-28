@@ -127,6 +127,9 @@ class VodDetailView extends GetView<VodDetailController> {
     ///
     /// NTF_2434
     /// ```
+    ///
+    /// `2022/04/28` 更新:
+    ///   => 兼容匹配规则(FC2-PPV-334424)
     var _sybs = [
       "-",
       "_",
