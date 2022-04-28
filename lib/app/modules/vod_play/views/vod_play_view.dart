@@ -62,7 +62,12 @@ class VodPlayView extends StatelessWidget {
                         child: SizedBox(
                           width: double.infinity,
                           child: CupertinoButton.filled(
-                            child: const Text("播放"),
+                            child: const Text(
+                              "播放",
+                              style: TextStyle(
+                                color: CupertinoColors.white,
+                              ),
+                            ),
                             onPressed: () {
                               /// TODO 目前仅支持 `ios`
                               if (!GetPlatform.isIOS) {
