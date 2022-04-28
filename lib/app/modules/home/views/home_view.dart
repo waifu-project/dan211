@@ -38,6 +38,10 @@ class HomeView extends GetView<HomeController> {
           },
           onDoubleTap: () {
             showCupertinoModalBottomSheet(
+              expand: false,
+              duration: const Duration(
+                milliseconds: 420,
+              ),
               context: context,
               builder: (context) => const ShowCasePage(),
             );

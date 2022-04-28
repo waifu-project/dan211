@@ -21,7 +21,7 @@ class _ShowCasePageState extends State<ShowCasePage> {
   set tabsIndex(int newVal) {
     _tabsIndex = newVal;
     setState(() {});
-    debugPrint(newVal.toString());
+    // debugPrint(newVal.toString());
     _pageController.animateToPage(
       newVal,
       duration: const Duration(
@@ -37,41 +37,29 @@ class _ShowCasePageState extends State<ShowCasePage> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        previousPageTitle: PREV_BUTTON_TITLE,
-        // middle: Text(
-        //   "使用指南",
-        //   style: TextStyle(
-        //     color: CupertinoTheme.of(context).primaryColor,
-        //   ),
-        // ),
-      ),
-      child: DefaultTextStyle(
-        style: TextStyle(
-          color: CupertinoDynamicColor.resolve(
-            CupertinoColors.label,
-            context,
-          ),
+    return DefaultTextStyle(
+      style: TextStyle(
+        color: CupertinoDynamicColor.resolve(
+          CupertinoColors.label,
+          context,
         ),
-        child: SafeArea(
-          child: Expanded(
-            child: Column(
+      ),
+      child: Column(
+        children: [
+          const CupertinoNavigationBar(
+            previousPageTitle: PREV_BUTTON_TITLE,
+          ),
+          _buildTabs(),
+          Expanded(
+            child: PageView(
+              controller: _pageController,
               children: [
-                _buildTabs(),
-                Expanded(
-                  child: PageView(
-                    controller: _pageController,
-                    children: [
-                      _buildUseHelp(),
-                      _buildAbout(),
-                    ],
-                  ),
-                ),
+                _buildUseHelp(),
+                _buildAbout(),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
