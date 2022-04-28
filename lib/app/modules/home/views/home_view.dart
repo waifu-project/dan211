@@ -6,6 +6,7 @@ import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_list_tile.dart';
 import 'package:dan211/widget/photo_hero.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -28,15 +29,21 @@ class HomeView extends GetView<HomeController> {
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        leading: CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: const Icon(CupertinoIcons.command),
-          onPressed: () {
+        leading: GestureDetector(
+          onTap: () {
             Get.toNamed(
               Routes.VOD_CASE,
               arguments: "",
             );
           },
+          onDoubleTap: () {
+            // TODO impl this
+            debugPrint("double tap");
+          },
+          child: const Icon(
+            CupertinoIcons.command,
+            size: 21,
+          ),
         ),
         trailing: CupertinoButton(
           padding: EdgeInsets.zero,
