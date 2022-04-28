@@ -1,3 +1,4 @@
+import 'package:dan211/app/modules/single_page/show_case.dart';
 import 'package:dan211/app/routes/app_pages.dart';
 import 'package:dan211/modules/art_detail.dart';
 import 'package:dan211/modules/vod_movie.dart';
@@ -6,10 +7,9 @@ import 'package:dan211/widget/k_error_stack.dart';
 import 'package:dan211/widget/k_list_tile.dart';
 import 'package:dan211/widget/photo_hero.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -37,8 +37,11 @@ class HomeView extends GetView<HomeController> {
             );
           },
           onDoubleTap: () {
-            // TODO impl this
-            debugPrint("double tap");
+            showCupertinoModalBottomSheet(
+              context: context,
+              builder: (context) => const ShowCasePage(),
+            );
+            // Get.to(() => const ShowCasePage());
           },
           child: const Icon(
             CupertinoIcons.command,

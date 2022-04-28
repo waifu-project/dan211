@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dan211/share/dan_movie_data.dart';
+import 'package:dan211/share/first_run.dart';
 import 'package:dan211/utils/http.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   await GetStorage.init();
   await danMovieShareConstData.init();
+  await isFirstRun.init();
   await XHttp.init();
   runApp(
     GetCupertinoApp(
