@@ -29,28 +29,39 @@ class HomeView extends GetView<HomeController> {
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        leading: GestureDetector(
-          onTap: () {
-            Get.toNamed(
-              Routes.VOD_CASE,
-              arguments: "",
-            );
-          },
-          onDoubleTap: () {
-            showCupertinoModalBottomSheet(
-              expand: false,
-              duration: const Duration(
-                milliseconds: 420,
+        leading: Row(
+          children: [
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              child: const Icon(
+                CupertinoIcons.command,
+                size: 21,
               ),
-              context: context,
-              builder: (context) => const ShowCasePage(),
-            );
-            // Get.to(() => const ShowCasePage());
-          },
-          child: const Icon(
-            CupertinoIcons.command,
-            size: 21,
-          ),
+              onPressed: () {
+                Get.toNamed(
+                  Routes.VOD_CASE,
+                  arguments: "",
+                );
+              },
+            ),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              child: const Icon(
+                CupertinoIcons.cloud_moon,
+                size: 21,
+              ),
+              onPressed: () {
+                showCupertinoModalBottomSheet(
+                  expand: false,
+                  duration: const Duration(
+                    milliseconds: 420,
+                  ),
+                  context: context,
+                  builder: (context) => const ShowCasePage(),
+                );
+              },
+            ),
+          ],
         ),
         trailing: CupertinoButton(
           padding: EdgeInsets.zero,
