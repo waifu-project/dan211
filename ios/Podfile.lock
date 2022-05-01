@@ -35,7 +35,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
   video_player: 7e9dad9437c238a97648819f6dd443c8854cf0c7
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
