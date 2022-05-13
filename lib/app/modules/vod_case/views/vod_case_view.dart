@@ -153,39 +153,37 @@ class VodCaseView extends StatelessWidget {
                   );
                 }
                 return Expanded(
-                  child: CupertinoScrollbar(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 0.0,
-                        horizontal: 12.0,
-                      ),
-                      child: Builder(builder: (context) {
-                        var cards = vodCase.data.cards;
-                        return GridView.count(
-                          childAspectRatio: 4 / 6,
-                          mainAxisSpacing: 12.0,
-                          crossAxisSpacing: 24.0,
-                          crossAxisCount: 3,
-                          children: List.generate(
-                            cards.length,
-                            (index) => PhotoHero(
-                              photo: cards[index].cover,
-                              child: KMovieCard(
-                                radiusSize: 6,
-                                imageURL: cards[index].cover,
-                                title: cards[index].title,
-                                onTap: () {
-                                  Get.toNamed(
-                                    Routes.VOD_DETAIL,
-                                    arguments: cards[index].id,
-                                  );
-                                },
-                              ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 0.0,
+                      horizontal: 12.0,
+                    ),
+                    child: Builder(builder: (context) {
+                      var cards = vodCase.data.cards;
+                      return GridView.count(
+                        childAspectRatio: 4 / 6,
+                        mainAxisSpacing: 12.0,
+                        crossAxisSpacing: 24.0,
+                        crossAxisCount: 3,
+                        children: List.generate(
+                          cards.length,
+                          (index) => PhotoHero(
+                            photo: cards[index].cover,
+                            child: KMovieCard(
+                              radiusSize: 6,
+                              imageURL: cards[index].cover,
+                              title: cards[index].title,
+                              onTap: () {
+                                Get.toNamed(
+                                  Routes.VOD_DETAIL,
+                                  arguments: cards[index].id,
+                                );
+                              },
                             ),
                           ),
-                        );
-                      }),
-                    ),
+                        ),
+                      );
+                    }),
                   ),
                 );
               }),
