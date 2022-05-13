@@ -1,6 +1,6 @@
 # 211工程
 
-<img src="./design/dan211.png" width="240">
+<img src="./design/dan211_round.png" width="180" align="right">
 
 一款轻巧的 `iOS` 的视频浏览器(滑稽), 大部分使用 `iOS` 风格编写
 
