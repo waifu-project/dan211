@@ -15,12 +15,14 @@ jobs:
           java-version: "12.x"
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: "2.5.3"
           channel: "stable"
       - run: flutter pub get
       - run: flutter pub deps
+
+      - name: build android
       - run: flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
 
+      - name: build iOS
       - run: |
           flutter build ios --release --no-codesign
           cd build/ios/iphoneos
@@ -29,11 +31,18 @@ jobs:
           ln -s ../Runner.app
           cd ..
           zip -r app.ipa Payload
+
+      - name: build macos
+      - run: |
+          flutter build macos --release
+          cd build/macos/Build/Products/Release
+          zip -r dan211.mac.zip dan211.app/*
       
       - uses: softprops/action-gh-release@v1
         with:
           files: |
             build/app/outputs/flutter-apk/*.apk
             build/ios/iphoneos/app.ipa
+            build/macos/Build/Products/Release/dan211.mac.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
