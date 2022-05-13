@@ -19,10 +19,8 @@ jobs:
       - run: flutter pub get
       - run: flutter pub deps
 
-      - name: build android
       - run: flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
 
-      - name: build iOS
       - run: |
           flutter build ios --release --no-codesign
           cd build/ios/iphoneos
@@ -32,7 +30,6 @@ jobs:
           cd ..
           zip -r app.ipa Payload
 
-      - name: build macos
       - run: |
           flutter build macos --release
           cd build/macos/Build/Products/Release
