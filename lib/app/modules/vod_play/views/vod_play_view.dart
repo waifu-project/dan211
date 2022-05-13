@@ -1,5 +1,6 @@
 import 'package:dan211/config/dart_const.dart';
 import 'package:dan211/utils/helper.dart';
+import 'package:dan211/utils/player.dart';
 import 'package:dan211/widget/k_card.dart';
 import 'package:dan211/widget/k_transparent_image.dart';
 import 'package:dan211/widget/photo_hero.dart';
@@ -69,8 +70,11 @@ class VodPlayView extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              /// TODO 目前仅支持 `ios`
-                              if (!GetPlatform.isIOS) {
+                              
+                              /// TODO 目前仅支持 `ios` | `macos`
+                              var isIOS = GetPlatform.isIOS;
+                              var isMacos = GetPlatform.isMacOS;
+                              if (!(isIOS || isMacos)) {
                                 showCupertinoDialog(
                                   context: Get.context as BuildContext,
                                   builder: (_) => CupertinoAlertDialog(
@@ -89,8 +93,11 @@ class VodPlayView extends StatelessWidget {
                                 return;
                               }
                               var url = play.data.player.url;
-                              if (url.isNotEmpty) {
+                              if (url.isEmpty) return;
+                              if (isIOS) {
                                 launchURL(url);
+                              } else {
+                                easyPlayToIINA(url);
                               }
                             },
                           ),
